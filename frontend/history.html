@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transaction History & Audit Ledger — BOB SafePay AI</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div class="app-layout">
+    
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar">
+      <div>
+        <a href="index.html" class="brand">
+          <div class="brand-icon">🛡️</div>
+          <div>
+            <div class="brand-title">BOB SafePay</div>
+            <div style="font-size: 0.72rem; color: var(--purple-bright); font-weight: 600;">AI SENTINEL v1.0</div>
+          </div>
+        </a>
+
+        <div class="nav-section-title">Operations</div>
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="dashboard.html" class="nav-item-content">
+              <span>📊</span>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="transaction.html" class="nav-item-content">
+              <span>⚡</span>
+              <span>Risk Analyzer</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="chatbot.html" class="nav-item-content">
+              <span>🤖</span>
+              <span>SafePay AI</span>
+            </a>
+          </li>
+          <li class="nav-item active">
+            <a href="history.html" class="nav-item-content">
+              <span>📜</span>
+              <span>Transaction History</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="alerts.html" class="nav-item-content">
+              <span>🔔</span>
+              <span>Security Alerts</span>
+            </a>
+            <span class="nav-badge nav-badge-risk">4</span>
+          </li>
+          <li class="nav-item">
+            <a href="analytics.html" class="nav-item-content">
+              <span>📈</span>
+              <span>Analytics</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div style="border-top: 1px solid var(--border-subtle); padding-top: 16px;">
+        <div class="user-profile" style="background: transparent; border: none; padding: 0;">
+          <div class="avatar">SA</div>
+          <div>
+            <div style="font-size: 0.88rem; font-weight: 600;">Security Analyst</div>
+            <div style="font-size: 0.74rem; color: var(--text-muted);">BOB Fraud Ops</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+      
+      <!-- Top Header -->
+      <header class="top-header">
+        <div>
+          <h1 class="page-title">Transaction History & Forensic Ledger</h1>
+          <p class="page-subtitle">Searchable, filterable audit trail of all evaluated digital payment streams</p>
+        </div>
+        <div style="display: flex; gap: 10px;">
+          <button type="button" id="exportBtn" class="btn btn-secondary" style="font-size: 0.88rem;">
+            📥 Export CSV
+          </button>
+          <a href="transaction.html" class="btn btn-primary" style="font-size: 0.88rem;">
+            ⚡ New Scan
+          </a>
+        </div>
+      </header>
+
+      <!-- SEARCH, FILTER & SORT CONTROLS BAR -->
+      <div class="controls-bar">
+        
+        <!-- Search Input -->
+        <div class="search-box-wrapper">
+          <span class="search-icon-inside">🔍</span>
+          <input 
+            type="text" 
+            id="searchInput" 
+            class="search-input" 
+            placeholder="Search by Merchant, City, Amount, or Reference ID..."
+          >
+        </div>
+
+        <!-- Status Filter Dropdown -->
+        <select id="statusFilter" class="form-select" style="width: auto; min-width: 170px; padding: 10px 14px;">
+          <option value="ALL">Filter: All Statuses</option>
+          <option value="FLAGGED">Filter: Flagged Only</option>
+          <option value="UNDER REVIEW">Filter: Under Review</option>
+          <option value="APPROVED">Filter: Approved (Safe)</option>
+        </select>
+
+        <!-- Sorting Dropdown -->
+        <select id="sortOrder" class="form-select" style="width: auto; min-width: 190px; padding: 10px 14px;">
+          <option value="RISK_DESC">Sort: Highest Risk First</option>
+          <option value="DATE_DESC">Sort: Most Recent First</option>
+          <option value="AMOUNT_DESC">Sort: Amount (High to Low)</option>
+          <option value="AMOUNT_ASC">Sort: Amount (Low to High)</option>
+        </select>
+
+      </div>
+
+      <!-- MAIN TABLE CARD -->
+      <div class="table-card">
+        <table class="fraud-table">
+          <thead>
+            <tr>
+              <th>Reference / Merchant</th>
+              <th>Date & Time</th>
+              <th>Device Fingerprint</th>
+              <th>Amount (INR)</th>
+              <th>Risk Index</th>
+              <th>Status</th>
+              <th>Audit</th>
+            </tr>
+          </thead>
+          <tbody id="historyTableBody">
+            <!-- Dynamically populated by history.js -->
+          </tbody>
+        </table>
+        
+        <!-- Empty State Message -->
+        <div id="emptyMessage" style="display: none; text-align: center; padding: 40px; color: var(--text-muted);">
+          No transactions found matching your search filter.
+        </div>
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- AUDIT RECEIPT MODAL -->
+  <div id="auditModal" class="modal-overlay">
+    <div class="modal-card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <h3 style="font-size: 1.15rem; font-weight: 700;">Cryptographic Audit Receipt</h3>
+        <button type="button" id="closeModalBtn" style="background: transparent; border: none; color: var(--text-muted); font-size: 1.2rem; cursor: pointer;">✕</button>
+      </div>
+
+      <p style="font-size: 0.85rem; color: var(--text-muted);">
+        Immutable forensic record generated by BOB SafePay Risk Engine for statutory compliance.
+      </p>
+
+      <div class="audit-receipt">
+        <div class="audit-row">
+          <span>TXN REFERENCE:</span>
+          <strong id="modalTxnId" style="color: var(--purple-bright);">TXN-000000</strong>
+        </div>
+        <div class="audit-row">
+          <span>BENEFICIARY:</span>
+          <span id="modalMerchant" style="color: #FFFFFF;">—</span>
+        </div>
+        <div class="audit-row">
+          <span>AMOUNT (INR):</span>
+          <strong id="modalAmount" style="color: #FFFFFF;">—</strong>
+        </div>
+        <div class="audit-row">
+          <span>IP GEOLOCATION:</span>
+          <span id="modalLocation" style="color: #FFFFFF;">—</span>
+        </div>
+        <div class="audit-row">
+          <span>HARDWARE TEE:</span>
+          <span id="modalDevice" style="color: #FFFFFF;">—</span>
+        </div>
+        <div class="audit-row">
+          <span>RISK SCORE:</span>
+          <strong id="modalScore" style="color: var(--color-risk);">0%</strong>
+        </div>
+        <div class="audit-row">
+          <span>RBI ACTION:</span>
+          <span id="modalAction" style="color: #FFFFFF;">—</span>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 10px;">
+        <a href="#" id="modalAskAIBtn" class="btn btn-primary" style="padding: 9px 16px; font-size: 0.85rem;">
+          🤖 Consult SafePay AI
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- History Script -->
+  <script src="js/history.js"></script>
+</body>
+</html>
