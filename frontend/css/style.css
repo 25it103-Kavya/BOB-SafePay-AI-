@@ -1469,6 +1469,7 @@ a {
   border-radius: var(--radius-full);
   outline: none;
   -webkit-appearance: none;
+  appearance: none;
   accent-color: var(--purple-bright);
   cursor: pointer;
 }
