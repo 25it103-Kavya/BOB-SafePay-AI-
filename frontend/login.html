@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In — BOB SafePay AI</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="auth-page">
+
+  <div class="auth-card">
+    
+    <!-- Top Branding -->
+    <div style="text-align: center; margin-bottom: 28px;">
+      <a href="index.html" style="display: inline-flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+        <div class="brand-icon">🛡️</div>
+        <span class="brand-title" style="font-size: 1.3rem;">BOB SafePay AI</span>
+      </a>
+      <p style="font-size: 0.88rem; color: var(--text-muted);">
+        Security Operations & Fraud Risk Portal
+      </p>
+    </div>
+
+    <!-- Alert Notification Box -->
+    <div id="alertBox" class="alert-message"></div>
+
+    <!-- Login Form -->
+    <form id="loginForm" novalidate>
+      
+      <!-- Email Field -->
+      <div class="form-group">
+        <label class="form-label" for="emailInput">Authorized Email</label>
+        <input 
+          type="email" 
+          id="emailInput" 
+          class="form-input" 
+          placeholder="analyst@safepay.bob.in" 
+          required
+          autocomplete="email"
+        >
+      </div>
+
+      <!-- Password Field with Show/Hide Toggle -->
+      <div class="form-group">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <label class="form-label" for="passwordInput" style="margin-bottom: 0;">Security Passcode</label>
+          <a href="#" style="font-size: 0.78rem; color: var(--purple-bright);">Forgot PIN?</a>
+        </div>
+        <div class="password-input-group">
+          <input 
+            type="password" 
+            id="passwordInput" 
+            class="form-input" 
+            placeholder="••••••••••••" 
+            required
+            autocomplete="current-password"
+            style="padding-right: 45px;"
+          >
+          <button type="button" id="togglePasswordBtn" class="password-toggle-btn" title="Toggle password visibility">
+            👁️
+          </button>
+        </div>
+      </div>
+
+      <!-- Device Trust Checkbox (FinTech Context) -->
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 24px;">
+        <input type="checkbox" id="trustDevice" style="accent-color: var(--purple-primary); width: 16px; height: 16px; cursor: pointer;" checked>
+        <label for="trustDevice" style="font-size: 0.82rem; color: var(--text-muted); cursor: pointer;">
+          Bind session to this hardware fingerprint
+        </label>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" id="submitBtn" class="btn btn-primary" style="width: 100%; padding: 13px; font-size: 0.95rem;">
+        Authenticate Session →
+      </button>
+
+    </form>
+
+    <!-- Hackathon Demo Credentials Helper -->
+    <div class="demo-credentials-box">
+      <div style="font-size: 0.76rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px;">
+        ⚡ Hackathon Fast-Track Access
+      </div>
+      <div>
+        <button type="button" class="demo-pill-btn" id="fillUserDemoBtn">
+          👤 Fill Analyst Login
+        </button>
+        <button type="button" class="demo-pill-btn" id="fillAdminDemoBtn">
+          🛡️ Fill Admin Login
+        </button>
+      </div>
+    </div>
+
+    <!-- Bottom Encryption Badge -->
+    <div style="text-align: center; margin-top: 22px; font-size: 0.75rem; color: var(--text-dim);">
+      🔒 Protected by 256-Bit TLS & Device Behavioral Profiling
+    </div>
+
+  </div>
+
+  <!-- Client-Side Interaction Script -->
+  <script src="js/login.js"></script>
+</body>
+</html>
