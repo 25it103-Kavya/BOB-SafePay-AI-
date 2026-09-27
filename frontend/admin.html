@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Security Operations Center (SOC) Admin — BOB SafePay AI</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div class="app-layout">
+    
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar">
+      <div>
+        <a href="index.html" class="brand">
+          <div class="brand-icon">🛡️</div>
+          <div>
+            <div class="brand-title">BOB SafePay</div>
+            <div style="font-size: 0.72rem; color: var(--purple-bright); font-weight: 600;">AI SENTINEL v1.0</div>
+          </div>
+        </a>
+
+        <div class="nav-section-title">Operations</div>
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="dashboard.html" class="nav-item-content">
+              <span>📊</span>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="transaction.html" class="nav-item-content">
+              <span>⚡</span>
+              <span>Risk Analyzer</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="chatbot.html" class="nav-item-content">
+              <span>🤖</span>
+              <span>SafePay AI</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="history.html" class="nav-item-content">
+              <span>📜</span>
+              <span>Transaction History</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="alerts.html" class="nav-item-content">
+              <span>🔔</span>
+              <span>Security Alerts</span>
+            </a>
+            <span class="nav-badge nav-badge-risk">4</span>
+          </li>
+          <li class="nav-item">
+            <a href="analytics.html" class="nav-item-content">
+              <span>📈</span>
+              <span>Analytics</span>
+            </a>
+          </li>
+          <li class="nav-item active">
+            <a href="admin.html" class="nav-item-content">
+              <span>👑</span>
+              <span>Admin SOC</span>
+            </a>
+            <span class="admin-badge">Admin</span>
+          </li>
+        </ul>
+      </div>
+
+      <div style="border-top: 1px solid var(--border-subtle); padding-top: 16px;">
+        <div class="user-profile" style="background: transparent; border: none; padding: 0;">
+          <div class="avatar" style="background: linear-gradient(135deg, #EF4444, #F59E0B);">AD</div>
+          <div>
+            <div style="font-size: 0.88rem; font-weight: 600;">Lead Administrator</div>
+            <div style="font-size: 0.74rem; color: var(--text-muted);">Root Clearance</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+      
+      <!-- Top Header -->
+      <header class="top-header">
+        <div>
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px;">
+            <h1 class="page-title">SOC Administrative Console</h1>
+            <span class="admin-badge">Tier-1 Authority</span>
+          </div>
+          <p class="page-subtitle">Algorithmic sensitivity control, regulatory cooling-off parameters, and analyst governance</p>
+        </div>
+        <div style="display: flex; gap: 10px;">
+          <button type="button" id="saveConfigBtn" class="btn btn-primary" style="font-size: 0.88rem; padding: 9px 18px;">
+            💾 Save SOC Policy
+          </button>
+        </div>
+      </header>
+
+      <!-- KPI METRICS -->
+      <section class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <div class="kpi-title">Protected Accounts</div>
+            <div class="kpi-icon kpi-icon-safe">👥</div>
+          </div>
+          <div class="kpi-value">14,280</div>
+          <div class="kpi-trend trend-down-safe">+320 Added This Week</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <div class="kpi-title">Gross Monitored Volume</div>
+            <div class="kpi-icon kpi-icon-safe">₹</div>
+          </div>
+          <div class="kpi-value">₹ 12.4 Cr</div>
+          <div class="kpi-trend" style="color: var(--text-muted);">UPI & IMPS Outflows</div>
+        </div>
+
+        <div class="kpi-card card-glow">
+          <div class="kpi-header">
+            <div class="kpi-title">Intercepted Mule Nodes</div>
+            <div class="kpi-icon kpi-icon-danger">🛑</div>
+          </div>
+          <div class="kpi-value" style="color: var(--color-risk);">28</div>
+          <div class="kpi-trend trend-up-danger">Frozen Prior to Cash-Out</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <div class="kpi-title">System Health & SLA</div>
+            <div class="kpi-icon kpi-icon-safe">⚡</div>
+          </div>
+          <div class="kpi-value" style="color: var(--color-safe);">99.98%</div>
+          <div class="kpi-trend" style="color: var(--text-muted);">All 4 Telemetry Nodes Operational</div>
+        </div>
+      </section>
+
+      <!-- MIDDLE ROW: THRESHOLD SLIDERS & DIAGNOSTICS -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 28px;">
+        
+        <!-- Risk Threshold Configuration -->
+        <div class="card card-glow">
+          <h3 style="font-size: 1.15rem; margin-bottom: 6px;">AI Sensitivity & Risk Boundaries</h3>
+          <p style="font-size: 0.84rem; color: var(--text-muted); margin-bottom: 20px;">
+            Configure classification cutoffs for automated block and step-up authentication.
+          </p>
+
+          <!-- Slider 1: High Risk -->
+          <div class="range-slider-wrapper">
+            <div class="slider-header">
+              <span>Automated Hard Block Threshold:</span>
+              <strong style="color: var(--color-risk); font-size: 1rem;"><span id="highRiskVal">70</span>% & Above</strong>
+            </div>
+            <input type="range" min="50" max="95" value="70" class="custom-range" id="highRiskSlider">
+            <div style="font-size: 0.74rem; color: var(--text-dim); margin-top: 4px;">
+              Payments scoring above this threshold are frozen automatically.
+            </div>
+          </div>
+
+          <!-- Slider 2: Step-up Review -->
+          <div class="range-slider-wrapper">
+            <div class="slider-header">
+              <span>Step-Up Authentication Threshold:</span>
+              <strong style="color: var(--color-review); font-size: 1rem;"><span id="reviewVal">30</span>% & Above</strong>
+            </div>
+            <input type="range" min="15" max="60" value="30" class="custom-range" id="reviewSlider">
+            <div style="font-size: 0.74rem; color: var(--text-dim); margin-top: 4px;">
+              Triggers mandatory interactive biometric or SMS OTP challenges.
+            </div>
+          </div>
+
+          <!-- Toggle: Cooling Off -->
+          <div class="toggle-switch-row" style="margin-top: 24px;">
+            <div>
+              <div style="font-weight: 600; color: #FFFFFF; font-size: 0.9rem;">Enforce 24-Hour Cooling-Off (RBI Mandate)</div>
+              <div style="font-size: 0.76rem; color: var(--text-muted);">Cap initial transfers to new beneficiaries at ₹10,000</div>
+            </div>
+            <input type="checkbox" id="coolingOffToggle" checked style="accent-color: var(--purple-bright); width: 18px; height: 18px; cursor: pointer;">
+          </div>
+        </div>
+
+        <!-- Telemetry Node Health & Diagnostics -->
+        <div class="card">
+          <h3 style="font-size: 1.15rem; margin-bottom: 6px;">Live Telemetry Node Health</h3>
+          <p style="font-size: 0.84rem; color: var(--text-muted); margin-bottom: 20px;">
+            Active micro-service status and latency budgets.
+          </p>
+
+          <div class="hotspot-row">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span class="status-indicator-dot dot-green"></span>
+              <div>
+                <div style="font-weight: 600; color: #FFFFFF;">Random Forest Classifier (v1.4)</div>
+                <div style="font-size: 0.74rem; color: var(--text-muted);">Inference Latency: 28 ms • Scikit-Learn Model</div>
+              </div>
+            </div>
+            <span class="badge badge-safe">Online</span>
+          </div>
+
+          <div class="hotspot-row">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span class="status-indicator-dot dot-green"></span>
+              <div>
+                <div style="font-weight: 600; color: #FFFFFF;">SQLite Relational Ledger</div>
+                <div style="font-size: 0.74rem; color: var(--text-muted);">Read/Write Latency: 4 ms • Zero Lock Contention</div>
+              </div>
+            </div>
+            <span class="badge badge-safe">Online</span>
+          </div>
+
+          <div class="hotspot-row">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span class="status-indicator-dot dot-green"></span>
+              <div>
+                <div style="font-weight: 600; color: #FFFFFF;">SafePay AI Context Agent</div>
+                <div style="font-size: 0.74rem; color: var(--text-muted);">Context-Injection Pipeline Active • Gemini/OpenAI Ready</div>
+              </div>
+            </div>
+            <span class="badge badge-safe">Online</span>
+          </div>
+
+          <div style="margin-top: 20px; padding-top: 14px; border-top: 1px solid var(--border-subtle); display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 0.84rem; color: var(--text-muted);">Emergency System Lockdown:</span>
+            <button type="button" id="emergencyLockdownBtn" class="btn btn-danger" style="padding: 6px 14px; font-size: 0.8rem;">
+              Engage Lockdown 🛑
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- BOTTOM ROW: ANALYST DIRECTORY & ACCESS CONTROL -->
+      <section class="table-card">
+        <div class="table-header-row">
+          <div>
+            <h2 class="table-title">SOC Analyst Directory & Access Governance</h2>
+            <p style="font-size: 0.82rem; color: var(--text-muted);">Manage operator credentials and revoke compromised access tokens</p>
+          </div>
+        </div>
+
+        <table class="fraud-table">
+          <thead>
+            <tr>
+              <th>Operator / Analyst</th>
+              <th>Assigned Role</th>
+              <th>Hardware Fingerprint</th>
+              <th>Last Active</th>
+              <th>Status</th>
+              <th>Access Action</th>
+            </tr>
+          </thead>
+          <tbody id="analystTableBody">
+            <!-- Dynamically populated by admin.js -->
+          </tbody>
+        </table>
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- Admin Script -->
+  <script src="js/admin.js"></script>
+</body>
+</html>
