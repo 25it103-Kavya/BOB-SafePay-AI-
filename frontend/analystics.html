@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Threat Analytics & Intelligence — BOB SafePay AI</title>
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Chart.js CDN for Analytics Graphs -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <div class="app-layout">
+    
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar">
+      <div>
+        <a href="index.html" class="brand">
+          <div class="brand-icon">🛡️</div>
+          <div>
+            <div class="brand-title">BOB SafePay</div>
+            <div style="font-size: 0.72rem; color: var(--purple-bright); font-weight: 600;">AI SENTINEL v1.0</div>
+          </div>
+        </a>
+
+        <div class="nav-section-title">Operations</div>
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="dashboard.html" class="nav-item-content">
+              <span>📊</span>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="transaction.html" class="nav-item-content">
+              <span>⚡</span>
+              <span>Risk Analyzer</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="chatbot.html" class="nav-item-content">
+              <span>🤖</span>
+              <span>SafePay AI</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="history.html" class="nav-item-content">
+              <span>📜</span>
+              <span>Transaction History</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="alerts.html" class="nav-item-content">
+              <span>🔔</span>
+              <span>Security Alerts</span>
+            </a>
+            <span class="nav-badge nav-badge-risk">4</span>
+          </li>
+          <li class="nav-item active">
+            <a href="analytics.html" class="nav-item-content">
+              <span>📈</span>
+              <span>Analytics</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div style="border-top: 1px solid var(--border-subtle); padding-top: 16px;">
+        <div class="user-profile" style="background: transparent; border: none; padding: 0;">
+          <div class="avatar">SA</div>
+          <div>
+            <div style="font-size: 0.88rem; font-weight: 600;">Security Analyst</div>
+            <div style="font-size: 0.74rem; color: var(--text-muted);">BOB Fraud Ops</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+      
+      <!-- Top Header -->
+      <header class="top-header">
+        <div>
+          <h1 class="page-title">Threat Intelligence & Macro Analytics</h1>
+          <p class="page-subtitle">Algorithmic risk distributions, fraud velocity trends, and model performance metrics</p>
+        </div>
+        <div class="filter-tabs">
+          <button class="filter-tab" data-period="7D">Last 7 Days</button>
+          <button class="filter-tab active" data-period="30D">Last 30 Days</button>
+          <button class="filter-tab" data-period="90D">Last 90 Days</button>
+        </div>
+      </header>
+
+      <!-- EXECUTIVE MACRO KPI CARDS -->
+      <section class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <div class="kpi-title">Protected Volume</div>
+            <div class="kpi-icon kpi-icon-safe">₹</div>
+          </div>
+          <div class="kpi-value">₹ 4.82 Cr</div>
+          <div class="kpi-trend trend-down-safe">42,850 Total Transactions</div>
+        </div>
+
+        <div class="kpi-card card-glow">
+          <div class="kpi-header">
+            <div class="kpi-title">Intercepted Fraud Value</div>
+            <div class="kpi-icon kpi-icon-danger">🛡️</div>
+          </div>
+          <div class="kpi-value" style="color: var(--purple-bright);">₹ 24.85 L</div>
+          <div class="kpi-trend trend-up-danger">100% Capital Preserved</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <div class="kpi-title">Model Precision Rate</div>
+            <div class="kpi-icon kpi-icon-safe">🎯</div>
+          </div>
+          <div class="kpi-value" style="color: var(--color-safe);">98.6%</div>
+          <div class="kpi-trend" style="color: var(--text-muted);">Random Forest F1: 0.978</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <div class="kpi-title">Mean Latency</div>
+            <div class="kpi-icon kpi-icon-safe">⚡</div>
+          </div>
+          <div class="kpi-value">38 ms</div>
+          <div class="kpi-trend" style="color: var(--text-muted);">Target: &lt; 150 ms (RBI Bound)</div>
+        </div>
+      </section>
+
+      <!-- ROW 1: VELOCITY TREND + DOUGHNUT DISTRIBUTION -->
+      <div class="analytics-grid-2">
+        
+        <!-- Multi-line Trend -->
+        <div class="table-card" style="margin-bottom: 0;">
+          <div class="table-header-row">
+            <div>
+              <h2 class="table-title">30-Day Velocity & Anomaly Trends</h2>
+              <p style="font-size: 0.82rem; color: var(--text-muted);">Total transaction volume vs. High-Risk Interceptions</p>
+            </div>
+          </div>
+          <div style="height: 270px; position: relative;">
+            <canvas id="trendChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Doughnut Distribution -->
+        <div class="table-card" style="margin-bottom: 0;">
+          <div class="table-header-row">
+            <div>
+              <h2 class="table-title">Risk Tier Distribution</h2>
+              <p style="font-size: 0.82rem; color: var(--text-muted);">Evaluation breakdown</p>
+            </div>
+          </div>
+          <div style="height: 210px; position: relative; margin-bottom: 12px;">
+            <canvas id="doughnutChart"></canvas>
+          </div>
+          <div style="display: flex; justify-content: space-around; font-size: 0.78rem; text-align: center;">
+            <div><span style="color: var(--color-safe);">●</span> Safe: <strong>84%</strong></div>
+            <div><span style="color: var(--color-review);">●</span> Review: <strong>11%</strong></div>
+            <div><span style="color: var(--color-risk);">●</span> High: <strong>5%</strong></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ROW 2: PRIMARY ANOMALY DRIVERS + GEOGRAPHIC HOTSPOTS -->
+      <div class="analytics-grid-half">
+        
+        <!-- Bar Chart: Anomaly Drivers -->
+        <div class="table-card" style="margin-bottom: 0;">
+          <div class="table-header-row">
+            <div>
+              <h2 class="table-title">Primary Threat Vector Drivers</h2>
+              <p style="font-size: 0.82rem; color: var(--text-muted);">Random Forest localized feature importance splits</p>
+            </div>
+          </div>
+          <div style="height: 240px; position: relative;">
+            <canvas id="driversChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Geographic Hotspots -->
+        <div class="table-card" style="margin-bottom: 0;">
+          <div class="table-header-row">
+            <div>
+              <h2 class="table-title">Top Geo-Anomaly Origin Nodes</h2>
+              <p style="font-size: 0.82rem; color: var(--text-muted);">Locations triggering impossible travel violations</p>
+            </div>
+          </div>
+
+          <div>
+            <div class="hotspot-row">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="font-size: 1.1rem;">🇷🇺</span>
+                <div>
+                  <div style="font-weight: 600; color: #FFFFFF;">Moscow, Russia (VPN Proxy)</div>
+                  <div style="font-size: 0.74rem; color: var(--text-muted);">14 Interceptions • Foreign Geo-fence Breach</div>
+                </div>
+              </div>
+              <span class="badge badge-risk">High Risk</span>
+            </div>
+
+            <div class="hotspot-row">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="font-size: 1.1rem;">🇺🇸</span>
+                <div>
+                  <div style="font-weight: 600; color: #FFFFFF;">Las Vegas, NV (Proxy Server)</div>
+                  <div style="font-size: 0.74rem; color: var(--text-muted);">9 Interceptions • Midnight Account Takeovers</div>
+                </div>
+              </div>
+              <span class="badge badge-risk">High Risk</span>
+            </div>
+
+            <div class="hotspot-row">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="font-size: 1.1rem;">🇷🇴</span>
+                <div>
+                  <div style="font-weight: 600; color: #FFFFFF;">Bucharest, Romania (Data Center)</div>
+                  <div style="font-size: 0.74rem; color: var(--text-muted);">6 Interceptions • Offshore Mule Transfers</div>
+                </div>
+              </div>
+              <span class="badge badge-review">Under Review</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- Analytics Script -->
+  <script src="js/analytics.js"></script>
+</body>
+</html>

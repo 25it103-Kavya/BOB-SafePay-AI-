@@ -1402,3 +1402,37 @@ a {
   align-items: center;
   flex-wrap: wrap;
 }
+/* --------------------------------------------------------------------------
+   16. Real-Time Threat Analytics & Charts Styles
+   -------------------------------------------------------------------------- */
+.analytics-grid-2 {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.analytics-grid-half {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+@media (max-width: 992px) {
+  .analytics-grid-2, .analytics-grid-half {
+    grid-template-columns: 1fr;
+  }
+}
+
+.hotspot-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 14px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  margin-bottom: 10px;
+  font-size: 0.88rem;
+}
