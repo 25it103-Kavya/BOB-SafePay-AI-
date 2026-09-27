@@ -1,0 +1,18 @@
+# Python cache files (temporary files Python creates to run fast)
+__pycache__/
+*.pyc
+
+# Virtual Environment (the heavy folder containing downloaded libraries)
+venv/
+.venv/
+
+# Secret files (where your API keys will live later)
+.env
+
+# Database file (stores your mock user accounts locally)
+*.db
+*.sqlite3
+
+# Windows temporary system files
+Thumbs.db
+desktop.ini
