@@ -1,50 +1,175 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BOB SafePay AI</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #0f172a;
-            color: #f8fafc;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .card {
-            background: #1e293b;
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            text-align: center;
-            max-width: 480px;
-        }
-        h1 { color: #38bdf8; }
-        p { color: #94a3b8; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BOB SafePay AI — Next-Gen Digital Payment Security</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div class="card">
-        <h1>BOB SafePay AI</h1>
-        <p>Fraud Detection & Safe Banking Assistant</p>
-        <p id="status">Connecting to server...</p>
-    </div>
 
-    <script>
-        fetch('/api/status')
-            .then(res => res.json())
-            .then(data => {
-                document.getElementById('status').innerText = 'Backend Status: ' + data.status;
-                document.getElementById('status').style.color = '#4ade80';
-            })
-            .catch(() => {
-                document.getElementById('status').innerText = 'Backend Offline';
-                document.getElementById('status').style.color = '#f87171';
-            });
-    </script>
+  <div class="container">
+    
+    <!-- NAVIGATION BAR -->
+    <header class="landing-nav">
+      <div class="brand" style="margin-bottom: 0; padding-left: 0;">
+        <div class="brand-icon">🛡️</div>
+        <div>
+          <div class="brand-title">BOB SafePay AI</div>
+          <div style="font-size: 0.7rem; color: var(--purple-bright); font-weight: 600;">FINTECH CYBERSECURITY</div>
+        </div>
+      </div>
+
+      <ul class="landing-nav-links">
+        <li><a href="#features" class="landing-nav-link">Features</a></li>
+        <li><a href="#architecture" class="landing-nav-link">Architecture</a></li>
+        <li><a href="#radar" class="landing-nav-link">Live Radar</a></li>
+      </ul>
+
+      <div style="display: flex; gap: 12px; align-items: center;">
+        <a href="login.html" class="btn btn-secondary" style="padding: 8px 16px; font-size: 0.88rem;">Sign In</a>
+        <a href="design_system.html" class="btn btn-primary" style="padding: 8px 18px; font-size: 0.88rem;">Launch App →</a>
+      </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+      <div class="hero-pill">
+        <span>⚡</span> Powered by Random Forest AI & RBI Digital Payment Directives
+      </div>
+
+      <h1 class="hero-title">
+        Intelligent Payment Security for Modern Indian Banking
+      </h1>
+
+      <p class="hero-subtitle">
+        Analyze transactions in real-time, block unauthorized device takeovers, and explain risk scores instantly with our context-aware assistant, <strong>SafePay AI</strong>.
+      </p>
+
+      <div class="hero-actions">
+        <a href="design_system.html" class="btn btn-primary" style="padding: 14px 28px; font-size: 1rem;">
+          ⚡ Explore Security Dashboard
+        </a>
+        <a href="#features" class="btn btn-secondary" style="padding: 14px 28px; font-size: 1rem;">
+          View Risk Engine Specs
+        </a>
+      </div>
+
+      <!-- HERO VISUAL: LIVE SECURITY RADAR CARD -->
+      <div class="hero-mockup-wrapper" id="radar">
+        <div class="mockup-bar">
+          <div class="mockup-dots">
+            <span class="mockup-dot" style="background: var(--color-risk);"></span>
+            <span class="mockup-dot" style="background: var(--color-review);"></span>
+            <span class="mockup-dot" style="background: var(--color-safe);"></span>
+          </div>
+          <div style="font-size: 0.78rem; color: var(--text-dim); font-family: monospace;">
+            SENTINEL-NODE-01 // REAL-TIME INFERENCE: 42ms
+          </div>
+          <span class="badge badge-risk" style="font-size: 0.7rem;">Active Threat Blocked</span>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px;">
+          <div>
+            <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em;">Incoming Transfer Request</div>
+            <div style="font-size: 1.8rem; font-weight: 800; color: #FFFFFF; margin-top: 4px;">₹ 85,750.00 <span style="font-size: 0.9rem; color: var(--text-muted); font-weight: 400;">via UPI / IMPS</span></div>
+          </div>
+          <div style="text-align: right;">
+            <div style="font-size: 0.8rem; color: var(--text-muted);">Calculated Risk Score</div>
+            <div style="font-size: 1.8rem; font-weight: 800; color: var(--color-risk); margin-top: 4px;">87 <span style="font-size: 1rem; color: var(--text-muted);">/ 100</span></div>
+          </div>
+        </div>
+
+        <!-- Detected Factors Breakdown -->
+        <div style="background: var(--bg-input); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 18px; margin-bottom: 18px;">
+          <div style="font-size: 0.82rem; font-weight: 700; color: var(--purple-bright); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px;">
+            ⚠️ Explainable AI (XAI) Detected Drivers
+          </div>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 8px; font-size: 0.88rem;">
+            <li style="display: flex; align-items: center; gap: 8px;">
+              <span style="color: var(--color-risk);">✖</span>
+              <span><strong>Hardware Mismatch:</strong> New unrecognized Linux device fingerprint (Registered: iPhone 14)</span>
+            </li>
+            <li style="display: flex; align-items: center; gap: 8px;">
+              <span style="color: var(--color-risk);">✖</span>
+              <span><strong>Impossible Travel:</strong> Geo-fence breach — transaction attempted from Moscow, RU (Home: Mumbai, IN)</span>
+            </li>
+            <li style="display: flex; align-items: center; gap: 8px;">
+              <span style="color: var(--color-review);">▲</span>
+              <span><strong>Spending Surge:</strong> Transaction amount is 6.2x higher than historical 30-day average (₹12,400)</span>
+            </li>
+          </ul>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.84rem;">
+          <span style="color: var(--text-muted);">Intervention: <strong>Dynamic Step-Up Authentication Enforced</strong></span>
+          <span style="color: var(--purple-bright); font-weight: 600;">Ready for SafePay AI Query →</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- CORE FEATURES SECTION -->
+    <section class="features-section" id="features">
+      <div style="text-align: center; margin-bottom: 50px;">
+        <div class="section-tag">Cybersecurity Architecture</div>
+        <h2 class="section-title">Multi-Layered Payment Defense</h2>
+        <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto;">
+          Engineered to satisfy Reserve Bank of India (RBI) Digital Payment Security Controls with explainable machine learning.
+        </p>
+      </div>
+
+      <div class="grid-3">
+        <!-- Card 1 -->
+        <div class="feature-card">
+          <div class="feature-icon-box">🧠</div>
+          <h3 style="font-size: 1.2rem; margin-bottom: 10px;">Random Forest Classifier</h3>
+          <p style="font-size: 0.92rem; color: var(--text-muted);">
+            Trained on high-velocity transactional vectors including amount ratios, time anomalies, device fingerprints, and geolocation hops.
+          </p>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="feature-card">
+          <div class="feature-icon-box">🤖</div>
+          <h3 style="font-size: 1.2rem; margin-bottom: 10px;">SafePay AI Assistant</h3>
+          <p style="font-size: 0.92rem; color: var(--text-muted);">
+            A real context-aware chatbot that receives live transaction metadata to answer: <em>"Why was my transfer flagged?"</em> without guessing.
+          </p>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="feature-card">
+          <div class="feature-icon-box">🛡️</div>
+          <h3 style="font-size: 1.2rem; margin-bottom: 10px;">RBI Compliance Engine</h3>
+          <p style="font-size: 0.92rem; color: var(--text-muted);">
+            Implements dynamic cooling-off periods for new payees, device-switch velocity caps, and 1-click emergency freeze triggers.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CALL TO ACTION BANNER -->
+    <section style="background: linear-gradient(180deg, rgba(139, 92, 246, 0.12) 0%, var(--bg-card) 100%); border: 1px solid var(--purple-border); border-radius: var(--radius-lg); padding: 50px 30px; text-align: center; box-shadow: var(--purple-glow); margin: 40px 0;">
+      <h2 style="font-size: 2rem; margin-bottom: 12px;">Experience Next-Gen Digital Payment Defense</h2>
+      <p style="color: var(--text-muted); max-width: 540px; margin: 0 auto 28px;">
+        Designed for Bank of Baroda digital ecosystem demonstrations with zero real-customer data leakage.
+      </p>
+      <a href="design_system.html" class="btn btn-primary" style="padding: 12px 28px;">
+        Launch SafePay AI Portal →
+      </a>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="landing-footer">
+      <p style="margin-bottom: 8px;">
+        <strong>BOB SafePay AI</strong> — Student Hackathon Prototype
+      </p>
+      <p style="font-size: 0.78rem; color: var(--text-dim);">
+        Disclaimer: This project is an independent academic prototype developed for hackathon demonstration. It is not affiliated with or endorsed by Bank of Baroda.
+      </p>
+    </footer>
+
+  </div>
+
 </body>
 </html>
