@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BOB SafePay AI — Security Operations Showcase</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div class="app-layout">
+    
+    <!-- LEFT SIDEBAR (Finora Style) -->
+    <aside class="sidebar">
+      <div>
+        <div class="brand">
+          <div class="brand-icon">🛡️</div>
+          <div>
+            <div class="brand-title">BOB SafePay</div>
+            <div style="font-size: 0.72rem; color: var(--purple-bright); font-weight: 600;">AI SENTINEL v1.0</div>
+          </div>
+        </div>
+
+        <div class="nav-section-title">Analysis Tools</div>
+        <ul class="nav-list">
+          <li class="nav-item active">
+            <div class="nav-item-content">
+              <span>📊</span>
+              <span>Dashboard</span>
+            </div>
+          </li>
+          <li class="nav-item">
+            <div class="nav-item-content">
+              <span>⚡</span>
+              <span>Transaction Analyzer</span>
+            </div>
+          </li>
+          <li class="nav-item">
+            <div class="nav-item-content">
+              <span>🤖</span>
+              <span>SafePay AI Chat</span>
+            </div>
+            <span class="nav-badge" style="background: var(--purple-subtle); color: var(--purple-bright); border: 1px solid var(--purple-border);">Online</span>
+          </li>
+          <li class="nav-item">
+            <div class="nav-item-content">
+              <span>📜</span>
+              <span>Transaction History</span>
+            </div>
+          </li>
+          <li class="nav-item">
+            <div class="nav-item-content">
+              <span>📈</span>
+              <span>Threat Analytics</span>
+            </div>
+          </li>
+        </ul>
+
+        <div class="nav-section-title">Alert Status</div>
+        <ul class="nav-list">
+          <li class="nav-item">
+            <div class="nav-item-content">
+              <span style="color: var(--color-risk);">●</span>
+              <span>High Risk</span>
+            </div>
+            <span class="nav-badge nav-badge-risk">4</span>
+          </li>
+          <li class="nav-item">
+            <div class="nav-item-content">
+              <span style="color: var(--color-review);">●</span>
+              <span>Under Review</span>
+            </div>
+            <span class="nav-badge" style="background: var(--color-review-bg); color: var(--color-review);">1</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Bottom User Snippet -->
+      <div style="border-top: 1px solid var(--border-subtle); padding-top: 18px;">
+        <div class="user-profile" style="background: transparent; border: none; padding: 0;">
+          <div class="avatar">SA</div>
+          <div>
+            <div style="font-size: 0.88rem; font-weight: 600;">Security Analyst</div>
+            <div style="font-size: 0.74rem; color: var(--text-muted);">BOB Fraud Ops</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="main-content">
+      
+      <!-- TOP HEADER -->
+      <header class="top-header">
+        <div>
+          <h1 class="page-title">Fraud Detection Dashboard</h1>
+          <p class="page-subtitle">Real-time digital payment transaction monitoring and threat analysis</p>
+        </div>
+        <div class="user-profile">
+          <div class="avatar">SA</div>
+          <span style="font-size: 0.88rem; font-weight: 500;">Bank of Baroda Gateway</span>
+        </div>
+      </header>
+
+      <!-- KPI THREAT CARDS (FraudGuard Style) -->
+      <section class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <div class="kpi-title">Flagged Transactions</div>
+            <div class="kpi-icon kpi-icon-danger">⚠️</div>
+          </div>
+          <div class="kpi-value">4</div>
+          <div class="kpi-trend trend-up-danger">▲ +12% from yesterday</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <div class="kpi-title">High Risk Alerts</div>
+            <div class="kpi-icon kpi-icon-danger">🛡️</div>
+          </div>
+          <div class="kpi-value">4</div>
+          <div class="kpi-trend trend-up-danger">▲ +5% from yesterday</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <div class="kpi-title">Under Review</div>
+            <div class="kpi-icon kpi-icon-warning">⏳</div>
+          </div>
+          <div class="kpi-value">1</div>
+          <div class="kpi-trend trend-down-safe">▼ -8% from yesterday</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <div class="kpi-title">System Protection Rate</div>
+            <div class="kpi-icon kpi-icon-safe">✓</div>
+          </div>
+          <div class="kpi-value" style="color: var(--color-safe);">99.2%</div>
+          <div class="kpi-trend" style="color: var(--text-muted);">Zero false negatives</div>
+        </div>
+      </section>
+
+      <!-- FLAGGED TRANSACTIONS TABLE (FraudGuard Style) -->
+      <section class="table-card">
+        <div class="table-header-row">
+          <div>
+            <h2 class="table-title">Flagged Transactions</h2>
+            <p style="font-size: 0.82rem; color: var(--text-muted);">Real-time stream analyzed by Random Forest Classifier</p>
+          </div>
+          <div class="filter-tabs">
+            <button class="filter-tab">All</button>
+            <button class="filter-tab active">Flagged (4)</button>
+            <button class="filter-tab">Under Review (1)</button>
+          </div>
+        </div>
+
+        <table class="fraud-table">
+          <thead>
+            <tr>
+              <th>Transaction / Merchant</th>
+              <th>Risk Score</th>
+              <th>Amount</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div class="merchant-cell">
+                  <div class="merchant-icon">💻</div>
+                  <div>
+                    <div class="merchant-name">Luxury Electronics Store</div>
+                    <div class="merchant-location">📍 Mumbai, MH • New Device (Linux Chrome)</div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <span class="risk-pill risk-pill-high">⚠️ 87% High Risk</span>
+              </td>
+              <td style="font-weight: 700; font-size: 1rem;">₹ 85,750.00</td>
+              <td>
+                <span class="status-badge status-flagged">Flagged</span>
+              </td>
+              <td>
+                <button class="ai-chip" style="padding: 4px 10px; font-size: 0.78rem;">Ask AI 🤖</button>
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <div class="merchant-cell">
+                  <div class="merchant-icon">🎰</div>
+                  <div>
+                    <div class="merchant-name">Casino & Gaming Token</div>
+                    <div class="merchant-location">📍 Las Vegas, NV (Proxy) • Midnight 03:14 AM</div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <span class="risk-pill risk-pill-high">⚠️ 92% High Risk</span>
+              </td>
+              <td style="font-weight: 700; font-size: 1rem;">₹ 42,500.00</td>
+              <td>
+                <span class="status-badge status-flagged">Flagged</span>
+              </td>
+              <td>
+                <button class="ai-chip" style="padding: 4px 10px; font-size: 0.78rem;">Ask AI 🤖</button>
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <div class="merchant-cell">
+                  <div class="merchant-icon">☕</div>
+                  <div>
+                    <div class="merchant-name">Global Coffee Chain</div>
+                    <div class="merchant-location">📍 Baroda, GJ • Trusted iPhone 14</div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <span class="risk-pill risk-pill-low">✓ 23% Low Risk</span>
+              </td>
+              <td style="font-weight: 700; font-size: 1rem;">₹ 350.00</td>
+              <td>
+                <span class="status-badge status-approved">Approved</span>
+              </td>
+              <td>
+                <span style="color: var(--text-dim); font-size: 0.8rem;">Auto-cleared</span>
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <div class="merchant-cell">
+                  <div class="merchant-icon">🪙</div>
+                  <div>
+                    <div class="merchant-name">Crypto Exchange Wire</div>
+                    <div class="merchant-location">📍 Bengaluru, KA • 4.8x Historical Avg</div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <span class="risk-pill risk-pill-review">⏳ 68% Review</span>
+              </td>
+              <td style="font-weight: 700; font-size: 1rem;">₹ 1,25,000.00</td>
+              <td>
+                <span class="status-badge status-review">Under Review</span>
+              </td>
+              <td>
+                <button class="ai-chip" style="padding: 4px 10px; font-size: 0.78rem;">Ask AI 🤖</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- NOVBank-Style AI AGENT SECTION -->
+      <section class="ai-agent-card">
+        <div class="ai-orb">🔮</div>
+        <h3 style="font-size: 1.35rem; font-weight: 700; margin-bottom: 6px;">SafePay AI Intelligence</h3>
+        <p style="color: var(--text-muted); font-size: 0.92rem; max-width: 520px; margin: 0 auto;">
+          Context-aware cybersecurity assistant trained on banking transaction risk models.
+        </p>
+
+        <div class="ai-chips-container">
+          <button class="ai-chip">"Why was the Luxury Electronics transfer flagged?"</button>
+          <button class="ai-chip">"Explain the 87% risk score calculation"</button>
+          <button class="ai-chip">"Is the Mumbai location a recognized geo-fence?"</button>
+        </div>
+      </section>
+
+    </main>
+
+  </div>
+
+</body>
+</html>
