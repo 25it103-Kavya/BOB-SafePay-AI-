@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SafePay AI — Security Intelligence Assistant</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div class="app-layout">
+    
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar">
+      <div>
+        <a href="index.html" class="brand">
+          <div class="brand-icon">🛡️</div>
+          <div>
+            <div class="brand-title">BOB SafePay</div>
+            <div style="font-size: 0.72rem; color: var(--purple-bright); font-weight: 600;">AI SENTINEL v1.0</div>
+          </div>
+        </a>
+
+        <div class="nav-section-title">Operations</div>
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="dashboard.html" class="nav-item-content">
+              <span>📊</span>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="transaction.html" class="nav-item-content">
+              <span>⚡</span>
+              <span>Risk Analyzer</span>
+            </a>
+          </li>
+          <li class="nav-item active">
+            <a href="chatbot.html" class="nav-item-content">
+              <span>🤖</span>
+              <span>SafePay AI</span>
+            </a>
+            <span class="nav-badge" style="background: var(--purple-subtle); color: var(--purple-bright); border: 1px solid var(--purple-border);">Active</span>
+          </li>
+          <li class="nav-item">
+            <a href="alerts.html" class="nav-item-content">
+              <span>🔔</span>
+              <span>Security Alerts</span>
+            </a>
+            <span class="nav-badge nav-badge-risk">4</span>
+          </li>
+          <li class="nav-item">
+            <a href="analytics.html" class="nav-item-content">
+              <span>📈</span>
+              <span>Analytics</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div style="border-top: 1px solid var(--border-subtle); padding-top: 16px;">
+        <div class="user-profile" style="background: transparent; border: none; padding: 0;">
+          <div class="avatar">SA</div>
+          <div>
+            <div style="font-size: 0.88rem; font-weight: 600;">Security Analyst</div>
+            <div style="font-size: 0.74rem; color: var(--text-muted);">BOB Fraud Ops</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CHAT AREA -->
+    <main class="main-content" style="padding: 24px 36px;">
+      
+      <!-- Top Title Bar -->
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <div>
+          <h1 class="page-title" style="font-size: 1.55rem;">SafePay AI Assistant</h1>
+          <p class="page-subtitle">Conversational Cyber Fraud Defense & Explainable Risk Diagnostics</p>
+        </div>
+        <a href="dashboard.html" class="btn btn-secondary" style="font-size: 0.85rem; padding: 8px 14px;">
+          ← Dashboard
+        </a>
+      </div>
+
+      <!-- MAIN CHAT CONTAINER -->
+      <div class="chat-wrapper">
+        
+        <!-- Header -->
+        <div class="chat-header">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <div class="brand-icon" style="width: 36px; height: 36px; font-size: 1.1rem;">🔮</div>
+            <div>
+              <div style="font-weight: 700; font-size: 0.95rem;">SafePay AI Sentinel</div>
+              <div style="font-size: 0.75rem; color: var(--text-muted); display: flex; align-items: center; gap: 6px;">
+                <span class="chat-status-dot"></span> Online • Connected to Risk Engine
+              </div>
+            </div>
+          </div>
+          <div>
+            <span class="badge badge-safe" style="font-size: 0.7rem;">RBI RBA Compliance Mode</span>
+          </div>
+        </div>
+
+        <!-- Active Context Strip -->
+        <div class="chat-context-banner" id="contextBanner">
+          <div>
+            <span>🎯 <strong>Active Inspection Context:</strong></span>
+            <span id="contextDetails" style="color: #FFFFFF; margin-left: 6px;">
+              Loading active transaction...
+            </span>
+          </div>
+          <button type="button" id="clearContextBtn" style="background: transparent; border: none; color: var(--text-dim); font-size: 0.75rem; cursor: pointer;">
+            Clear Context ✕
+          </button>
+        </div>
+
+        <!-- Messages Area -->
+        <div class="chat-messages-area" id="chatMessages">
+          
+          <!-- Bot Welcome Message -->
+          <div class="chat-bubble-row">
+            <div class="chat-avatar chat-avatar-ai">🤖</div>
+            <div>
+              <div class="chat-bubble bubble-ai">
+                Hello! I am <strong>SafePay AI</strong>, your real-time payment security intelligence assistant. 
+                <br><br>
+                I have direct visibility into your transaction telemetry, device fingerprints, and calculated risk scores. How can I protect you today?
+              </div>
+              <div class="chat-time">Just now</div>
+            </div>
+          </div>
+
+          <!-- Suggested Quick Prompts -->
+          <div style="margin: 8px 0 12px 46px;" id="suggestedChips">
+            <div style="font-size: 0.75rem; color: var(--text-dim); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em;">
+              Suggested Inquiries:
+            </div>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+              <button class="ai-chip" style="font-size: 0.78rem;" data-prompt="Why was this transaction flagged?">
+                "Why was this transaction flagged?"
+              </button>
+              <button class="ai-chip" style="font-size: 0.78rem;" data-prompt="Explain the risk score calculation">
+                "Explain the risk score calculation"
+              </button>
+              <button class="ai-chip" style="font-size: 0.78rem;" data-prompt="What should I do if I don't recognize this payment?">
+                "What should I do if I don't recognize this payment?"
+              </button>
+            </div>
+          </div>
+
+          <!-- Typing Indicator Bubble (Hidden by default) -->
+          <div class="chat-bubble-row" id="typingRow" style="display: none;">
+            <div class="chat-avatar chat-avatar-ai">🤖</div>
+            <div class="typing-box" style="display: flex;">
+              <span class="typing-dot"></span>
+              <span class="typing-dot"></span>
+              <span class="typing-dot"></span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Input Bar -->
+        <form id="chatForm" class="chat-input-bar">
+          <input 
+            type="text" 
+            id="chatInput" 
+            class="chat-input-field" 
+            placeholder="Ask SafePay AI about this transaction or payment security..." 
+            autocomplete="off"
+            required
+          >
+          <button type="submit" id="sendBtn" class="btn btn-primary" style="padding: 12px 22px;">
+            Send ➤
+          </button>
+        </form>
+
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- Chatbot Script -->
+  <script src="js/chatbot.js"></script>
+</body>
+</html>
