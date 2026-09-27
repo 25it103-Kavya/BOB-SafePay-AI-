@@ -1,6 +1,5 @@
 /**
- * BOB SafePay AI — Conversational Assistant Engine
- * Manages chat bubbles, typing indicator, URL query auto-detection, and contextual answers.
+ * BOB SafePay AI — Chatbot Client Connected to Live Flask /api/chat Backend
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -25,7 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
       console.warn('Context parse error:', e);
     }
   } else {
-    // Default context if directly navigated
     activeTxn = {
       id: 'TXN-884912',
       amount: '₹ 85,750.00',
@@ -33,14 +31,15 @@ document.addEventListener('DOMContentLoaded', () => {
       location: 'Moscow, RU (Proxy Breach)',
       device: 'New Linux Chrome',
       time: 'Midnight (03:14 AM)',
-      score: 87,
+      score: 96,
       riskLevel: 'HIGH RISK',
       factors: [
-        'Spending Surge: 7.1x higher than 30-day average.',
-        'Hardware Alert: Brand-new unrecognized device fingerprint.',
-        'Geo-Anomaly: Initiated outside user trusted geo-fence (Moscow, RU).',
-        'Time Anomaly: Attempted at 03:14 AM.'
-      ]
+        'Spending Surge: 7.1x higher than baseline',
+        'Hardware Alert: Brand-new unrecognized device fingerprint',
+        'Geo-Anomaly: Initiated outside trusted geo-fence (Moscow, RU)',
+        'Timestamp Anomaly: Attempted at 03:14 AM'
+      ],
+      recommendation: 'Automated 24h cooling-off hold placed.'
     };
     contextDetails.textContent = `${activeTxn.id} • ${activeTxn.amount} (${activeTxn.riskLevel} - ${activeTxn.score}%) • ${activeTxn.location}`;
   }
@@ -49,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
   clearContextBtn.addEventListener('click', () => {
     activeTxn = null;
     contextBanner.style.display = 'none';
-    appendBotMessage('Inspection context cleared. You can ask me general questions regarding payment security or RBI guidelines.');
+    appendBotMessage('Inspection context cleared. You can ask me general questions regarding digital payment security or RBI guidelines.');
   });
 
   // 2. Helper to Append User Message
@@ -66,13 +65,12 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
     `;
 
-    // Insert before typing indicator
     chatMessages.insertBefore(row, typingRow);
     scrollToBottom();
   }
 
   // 3. Helper to Append Bot Message
-  function appendBotMessage(htmlContent) {
+  function appendBotMessage(htmlContent, provider = '') {
     const row = document.createElement('div');
     row.className = 'chat-bubble-row';
     const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -81,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
       <div class="chat-avatar chat-avatar-ai">🤖</div>
       <div>
         <div class="chat-bubble bubble-ai">${htmlContent}</div>
-        <div class="chat-time">${time}</div>
+        <div class="chat-time">${time} ${provider ? `• <span style="color: var(--purple-bright);">${provider}</span>` : ''}</div>
       </div>
     `;
 
@@ -93,78 +91,46 @@ document.addEventListener('DOMContentLoaded', () => {
     chatMessages.scrollTop = chatMessages.scrollHeight;
   }
 
-  // 4. Context-Aware AI Response Engine
-  function generateAIResponse(userPrompt) {
-    const lower = userPrompt.toLowerCase();
-
-    // Show Typing Indicator
+  // 4. Send Message to Flask Backend (/api/chat)
+  async function sendToAI(userPrompt) {
     typingRow.style.display = 'flex';
     scrollToBottom();
 
-    setTimeout(() => {
+    try {
+      // Real HTTP fetch to Flask backend!
+      const response = await fetch('http://127.0.0.1:5000/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: userPrompt,
+          transaction_context: activeTxn,
+          session_id: 'SESSION_' + (localStorage.getItem('safepay_session') ? 'AUTH_USER' : 'ANALYST')
+        })
+      });
+
+      const data = await response.json();
       typingRow.style.display = 'none';
 
-      // SCENARIO 1: "Why was this flagged?"
-      if (lower.includes('why') && (lower.includes('flag') || lower.includes('score') || lower.includes('risk') || lower.includes('luxury') || lower.includes('block'))) {
-        if (activeTxn) {
-          appendBotMessage(`
-            <strong>Transaction ${activeTxn.id}</strong> received a <strong>${activeTxn.score}% (${activeTxn.riskLevel})</strong> risk score due to four combined anomaly vectors:
-            <ul style="margin: 8px 0 8px 18px; line-height: 1.6;">
-              <li><strong>Spending Deviation:</strong> The amount (<strong>${activeTxn.amount}</strong>) is significantly higher than your 30-day baseline (<strong>${activeTxn.prevAvg}</strong>).</li>
-              <li><strong>Hardware Mismatch:</strong> Initiated from <em>${activeTxn.device}</em> rather than your registered primary smartphone.</li>
-              <li><strong>Geolocation Breach:</strong> IP location routed through <em>${activeTxn.location}</em>, triggering an impossible travel violation.</li>
-              <li><strong>Timestamp Velocity:</strong> Attempted during off-peak hours (<em>${activeTxn.time}</em>).</li>
-            </ul>
-            <strong>Recommended Action:</strong> An automated hold has been placed. You must complete out-of-band biometric authentication to authorize this transfer.
-          `);
-        } else {
-          appendBotMessage('I currently have no active transaction context loaded. Please analyze a transaction in the Risk Analyzer first, and I will diagnose its exact flags!');
-        }
-        return;
+      if (data.status === 'success') {
+        appendBotMessage(data.reply, data.provider);
+      } else {
+        appendBotMessage('I encountered a security protocol timeout. Please try again.');
       }
 
-      // SCENARIO 2: "Explain the calculation"
-      if (lower.includes('calculate') || lower.includes('how does') || lower.includes('model') || lower.includes('formula')) {
-        appendBotMessage(`
-          The <strong>0–100 SafePay Risk Score</strong> is calculated using a dual-engine architecture:
-          <ol style="margin: 8px 0 8px 18px; line-height: 1.6;">
-            <li><strong>RBI Statutory Rules:</strong> Fast-path checks for mandatory cooling-off limits, SIM-swap signatures, and known fraudulent VPA handles.</li>
-            <li><strong>Random Forest ML Model:</strong> Evaluates feature importance splits across historical spending ratios (35% weight), hardware integrity (30% weight), geo-velocity distance (25% weight), and time velocity (10% weight).</li>
-          </ol>
-          Scores <strong>0–30</strong> are cleared frictionlessly. Scores <strong>31–70</strong> require step-up OTP. Scores <strong>71–100</strong> are automatically frozen.
-        `);
-        return;
-      }
-
-      // SCENARIO 3: "What should I do if I don't recognize it?"
-      if (lower.includes('recognize') || lower.includes('dont know') || lower.includes('hack') || lower.includes('fraud') || lower.includes('freeze')) {
-        appendBotMessage(`
-          If you do <strong>not</strong> recognize transaction ${activeTxn ? activeTxn.id : 'a payment'}, take these immediate steps:
-          <ol style="margin: 8px 0 8px 18px; line-height: 1.6;">
-            <li><strong>Freeze UPI Channels:</strong> Click the <span style="color: var(--color-risk); font-weight: 700;">Emergency Freeze</span> button to lock instant outbound debits.</li>
-            <li><strong>Report to Cyber Fraud (1930):</strong> Dial the Citizen Financial Cyber Fraud Helpline (<strong>1930</strong>) or report via <em>cybercrime.gov.in</em> within the 24-hour golden window.</li>
-            <li><strong>Reset Credentials:</strong> Disconnect any active screen-sharing software (AnyDesk, TeamViewer) and reset your Bank of Baroda NetBanking password from a verified device.</li>
-          </ol>
-        `);
-        return;
-      }
-
-      // DEFAULT FALLBACK
+    } catch (err) {
+      console.warn('Backend /api/chat offline, running client fallback:', err);
+      typingRow.style.display = 'none';
       appendBotMessage(`
-        I analyzed your inquiry: <em>"${userPrompt}"</em>. 
+        <strong>Transaction ${activeTxn ? activeTxn.id : 'Telemetry'} Analysis:</strong>
         <br><br>
-        For transaction <strong>${activeTxn ? activeTxn.id : 'monitoring'}</strong>, all security shields remain operational. You can ask me:
-        <ul style="margin: 6px 0 0 18px;">
-          <li><em>"Why was this transaction flagged?"</em></li>
-          <li><em>"Explain the risk score calculation"</em></li>
-          <li><em>"What should I do if I don't recognize this payment?"</em></li>
-        </ul>
-      `);
-
-    }, 800);
+        Your payment of <strong>${activeTxn ? activeTxn.amount : '₹85,750'}</strong> was intercepted because it scored an AI risk index of <strong>${activeTxn ? activeTxn.score : '96'}% (HIGH RISK)</strong>.
+        <br><br>
+        Key flags: Spending deviation (7.1x average), brand-new hardware signature, and impossible travel proxy detected.
+      `, 'SafePay Heuristic Fallback');
+    }
   }
 
-  // 5. Handle Form Submission
+  // 5. Form Submission
   chatForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const message = chatInput.value.trim();
@@ -172,26 +138,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     appendUserMessage(message);
     chatInput.value = '';
-    generateAIResponse(message);
+    sendToAI(message);
   });
 
-  // 6. Handle Suggested Quick Chips
+  // 6. Quick Chips
   document.querySelectorAll('[data-prompt]').forEach(chip => {
     chip.addEventListener('click', (e) => {
       const promptText = e.target.getAttribute('data-prompt');
       appendUserMessage(promptText);
-      generateAIResponse(promptText);
+      sendToAI(promptText);
     });
   });
 
-  // 7. Auto-detect Query Parameter from Step 6 or 8 (e.g. ?query=...)
+  // 7. Auto-detect Query Parameter (From result.html or dashboard.html)
   const urlParams = new URLSearchParams(window.location.search);
   const incomingQuery = urlParams.get('query');
   if (incomingQuery) {
     setTimeout(() => {
       appendUserMessage(incomingQuery);
-      generateAIResponse(incomingQuery);
-    }, 400);
+      sendToAI(incomingQuery);
+    }, 450);
   }
 
 });
