@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Security Dashboard — BOB SafePay AI</title>
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Chart.js CDN for Smooth FinTech Area Charts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <div class="app-layout">
+    
+    <!-- LEFT SIDEBAR (Finora Style) -->
+    <aside class="sidebar">
+      <div>
+        <!-- Brand Header -->
+        <a href="index.html" class="brand">
+          <div class="brand-icon">🛡️</div>
+          <div>
+            <div class="brand-title">BOB SafePay</div>
+            <div style="font-size: 0.72rem; color: var(--purple-bright); font-weight: 600;">AI SENTINEL v1.0</div>
+          </div>
+        </a>
+
+        <!-- Navigation Section -->
+        <div class="nav-section-title">Operations</div>
+        <ul class="nav-list">
+          <li class="nav-item active">
+            <a href="dashboard.html" class="nav-item-content">
+              <span>📊</span>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="transaction.html" class="nav-item-content">
+              <span>⚡</span>
+              <span>Risk Analyzer</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="chatbot.html" class="nav-item-content">
+              <span>🤖</span>
+              <span>SafePay AI</span>
+            </a>
+            <span class="nav-badge" style="background: var(--purple-subtle); color: var(--purple-bright); border: 1px solid var(--purple-border);">Online</span>
+          </li>
+          <li class="nav-item">
+            <a href="alerts.html" class="nav-item-content">
+              <span>🔔</span>
+              <span>Security Alerts</span>
+            </a>
+            <span class="nav-badge nav-badge-risk">4</span>
+          </li>
+          <li class="nav-item">
+            <a href="analytics.html" class="nav-item-content">
+              <span>📈</span>
+              <span>Analytics</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="settings.html" class="nav-item-content">
+              <span>⚙️</span>
+              <span>Settings</span>
+            </a>
+          </li>
+        </ul>
+
+        <!-- Alert Summary Section -->
+        <div class="nav-section-title">Live Threat Monitor</div>
+        <ul class="nav-list">
+          <li class="nav-item">
+            <div class="nav-item-content">
+              <span style="color: var(--color-risk);">●</span>
+              <span>High Risk (Block)</span>
+            </div>
+            <span class="nav-badge nav-badge-risk">4</span>
+          </li>
+          <li class="nav-item">
+            <div class="nav-item-content">
+              <span style="color: var(--color-review);">●</span>
+              <span>Step-Up Review</span>
+            </div>
+            <span class="nav-badge" style="background: var(--color-review-bg); color: var(--color-review);">1</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Bottom User Snippet & Logout -->
+      <div style="border-top: 1px solid var(--border-subtle); padding-top: 16px;">
+        <div class="user-profile" style="background: transparent; border: none; padding: 0; margin-bottom: 12px;">
+          <div class="avatar" id="sidebarAvatar">SA</div>
+          <div>
+            <div id="sidebarUserName" style="font-size: 0.88rem; font-weight: 600;">Security Analyst</div>
+            <div id="sidebarUserRole" style="font-size: 0.74rem; color: var(--text-muted);">BOB Fraud Operations</div>
+          </div>
+        </div>
+        <button id="logoutBtn" class="btn btn-secondary" style="width: 100%; font-size: 0.8rem; padding: 6px 10px;">
+          Sign Out ↪
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN DASHBOARD CONTENT -->
+    <main class="main-content">
+      
+      <!-- TOP HEADER -->
+      <header class="top-header">
+        <div>
+          <h1 class="page-title" id="welcomeHeading">Fraud Detection Command Center</h1>
+          <p class="page-subtitle">Real-time payment streaming and anomaly classification • RBI Guideline Mode Active</p>
+        </div>
+        <div style="display: flex; gap: 12px; align-items: center;">
+          <a href="transaction.html" class="btn btn-primary" style="font-size: 0.88rem; padding: 9px 16px;">
+            ⚡ Analyze New Payment
+          </a>
+          <div class="user-profile">
+            <div class="avatar" id="topAvatar">SA</div>
+            <span id="topUserDisplay" style="font-size: 0.88rem; font-weight: 500;">Bank of Baroda Gateway</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- KPI THREAT CARDS (FraudGuard Style) -->
+      <section class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <div class="kpi-title">Flagged Payments</div>
+            <div class="kpi-icon kpi-icon-danger">⚠️</div>
+          </div>
+          <div class="kpi-value" id="kpiFlagged">4</div>
+          <div class="kpi-trend trend-up-danger">▲ +12% from yesterday</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <div class="kpi-title">High Risk Interceptions</div>
+            <div class="kpi-icon kpi-icon-danger">🛡️</div>
+          </div>
+          <div class="kpi-value" id="kpiHighRisk">4</div>
+          <div class="kpi-trend trend-up-danger">▲ +5% automated hold</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <div class="kpi-title">Under Review (OTP)</div>
+            <div class="kpi-icon kpi-icon-warning">⏳</div>
+          </div>
+          <div class="kpi-value" id="kpiReview">1</div>
+          <div class="kpi-trend trend-down-safe">▼ -8% friction drop</div>
+        </div>
+
+        <div class="kpi-card card-glow">
+          <div class="kpi-header">
+            <div class="kpi-title">Security Health Index</div>
+            <div class="kpi-icon kpi-icon-safe">✓</div>
+          </div>
+          <div class="kpi-value" style="color: var(--color-safe);">99.2%</div>
+          <div class="kpi-trend" style="color: var(--text-muted);">Zero confirmed breaches</div>
+        </div>
+      </section>
+
+      <!-- MIDDLE ROW: CHART + QUICK AI ACTIONS -->
+      <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px; margin-bottom: 32px;">
+        
+        <!-- Interactive Chart Card (Finora Style) -->
+        <div class="table-card" style="margin-bottom: 0;">
+          <div class="table-header-row">
+            <div>
+              <h2 class="table-title">Transaction Volume & Anomaly Flow</h2>
+              <p style="font-size: 0.82rem; color: var(--text-muted);">Hourly transaction velocity with ML risk boundaries</p>
+            </div>
+            <div class="filter-tabs">
+              <button class="filter-tab active" data-range="24H">24H</button>
+              <button class="filter-tab" data-range="1W">1W</button>
+              <button class="filter-tab" data-range="1M">1M</button>
+              <button class="filter-tab" data-range="1Y">1Y</button>
+            </div>
+          </div>
+          <div style="height: 250px; position: relative;">
+            <canvas id="velocityChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Quick AI Sentinel & Actions (Novbank Style) -->
+        <div class="card card-glow" style="display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px;">
+              <div class="brand-icon" style="width: 32px; height: 32px; font-size: 1rem;">🤖</div>
+              <h3 style="font-size: 1.05rem;">SafePay AI Sentinel</h3>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 16px;">
+              Autonomous model inspecting UPI handles, impossible travel velocity, and new device fingerprints.
+            </p>
+            <div style="background: var(--bg-input); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 12px; margin-bottom: 14px; font-size: 0.8rem;">
+              <span style="color: var(--purple-bright); font-weight: 600;">Latest Anomaly:</span>
+              <div style="color: #FFFFFF; margin-top: 4px;">Luxury Electronics Store • ₹85,750 (New Device)</div>
+            </div>
+          </div>
+          <div>
+            <a href="chatbot.html?query=Why%20was%20the%20Luxury%20Electronics%20transfer%20flagged?" class="btn btn-primary" style="width: 100%; font-size: 0.88rem; padding: 10px;">
+              Ask AI: "Why Flagged?" →
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- BOTTOM ROW: FLAGGED TRANSACTIONS TABLE (FraudGuard Style) -->
+      <section class="table-card">
+        <div class="table-header-row">
+          <div>
+            <h2 class="table-title">Recent Streamed Transactions</h2>
+            <p style="font-size: 0.82rem; color: var(--text-muted);">Real-time stream monitored by Random Forest Classifier</p>
+          </div>
+          <div class="filter-tabs">
+            <button class="filter-tab active" id="filterAll">All (4)</button>
+            <button class="filter-tab" id="filterFlagged">Flagged (3)</button>
+            <button class="filter-tab" id="filterApproved">Approved (1)</button>
+          </div>
+        </div>
+
+        <table class="fraud-table">
+          <thead>
+            <tr>
+              <th>Transaction / Beneficiary</th>
+              <th>Risk Score</th>
+              <th>Amount</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="transactionTableBody">
+            <!-- Dynamically populated by dashboard.js -->
+          </tbody>
+        </table>
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- Dashboard Logic Script -->
+  <script src="js/dashboard.js"></script>
+</body>
+</html>
