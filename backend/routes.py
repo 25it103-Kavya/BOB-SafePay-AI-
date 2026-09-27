@@ -1,5 +1,6 @@
 """
-BOB SafePay AI — REST API Endpoints with Live Random Forest ML Inference & SQLite Storage
+BOB SafePay AI — Complete REST API Gateway
+Integrates SQLite Database, Random Forest ML, and SafePay AI Context-Aware Chatbot.
 """
 
 import sys
@@ -11,9 +12,13 @@ import random
 from werkzeug.security import check_password_hash
 from database import get_db_connection
 
-# Add parent directory to path so we can import from ml.predict
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+# Add root folder to sys.path so we can import from ml and chatbot packages
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if BASE_DIR not in sys.path:
+    sys.path.append(BASE_DIR)
+
 from ml.predict import predict_transaction_risk
+from chatbot.chatbot import get_safepay_ai_response
 
 api_bp = Blueprint('api', __name__, url_prefix='/api')
 
@@ -36,6 +41,7 @@ def health_check():
         "version": "1.0.0",
         "database": {"engine": "SQLite3", "status": db_status},
         "ml_engine": {"model": "Random Forest v1.4", "status": "active"},
+        "chatbot_engine": {"service": "SafePay AI Intelligence", "status": "online"},
         "timestamp": datetime.utcnow().isoformat()
     }), 200
 
@@ -74,7 +80,6 @@ def login():
 # -----------------------------------------------------------------------------
 @api_bp.route('/analyze', methods=['POST'])
 def analyze_transaction():
-    """Evaluates payment telemetry using real trained Random Forest Classifier"""
     data = request.get_json() or {}
 
     try:
@@ -88,14 +93,13 @@ def analyze_transaction():
     except (ValueError, TypeError):
         return jsonify({"status": "error", "message": "Invalid numeric format."}), 400
 
-    # Derive numerical features for the ML model
     is_new_device = 1 if ("New" in device or "Linux" in device) else 0
     is_unusual_location = 1 if ("Moscow" in location or "Vegas" in location or "Proxy" in location) else 0
     is_unusual_time = 1 if ("Midnight" in time_of_day or "03:" in time_of_day) else 0
     is_rooted_emulator = 1 if ("Rooted" in device or "Emulator" in device) else 0
     velocity_1h = 4 if is_new_device or is_unusual_location else 1
 
-    # Call real Random Forest Model!
+    # Call Random Forest ML Inference
     ml_result = predict_transaction_risk({
         'amount': amount,
         'previous_average': prev_avg,
@@ -128,7 +132,6 @@ def analyze_transaction():
         recommendation, status
     ))
 
-    # Auto-generate Alert for High Risk
     if score >= 71:
         alert_ref = f"INC-{random.randint(1000, 9999)}"
         cursor.execute('''
@@ -157,12 +160,53 @@ def analyze_transaction():
         "txn_type": txn_type,
         "risk_factors": risk_factors,
         "recommendation": recommendation,
-        "model_version": ml_result['model_version'],
-        "fraud_probability": ml_result['fraud_probability']
+        "model_version": ml_result['model_version']
     }), 200
 
 # -----------------------------------------------------------------------------
-# 4. Streamed Transactions Feed (GET /api/transactions)
+# 4. Context-Aware AI Chatbot (POST /api/chat)
+# -----------------------------------------------------------------------------
+@api_bp.route('/chat', methods=['POST'])
+def chat():
+    """Answers user inquiries with injected transaction context and logs conversation"""
+    data = request.get_json() or {}
+    user_message = data.get('message', '').strip()
+    txn_context = data.get('transaction_context', None)
+    session_id = data.get('session_id', 'DEFAULT_SESSION')
+
+    if not user_message:
+        return jsonify({"status": "error", "message": "Message content cannot be empty."}), 400
+
+    # Call AI Engine with injected context
+    ai_result = get_safepay_ai_response(user_message, txn_context)
+
+    # Persist conversation in SQLite chat_history table
+    try:
+        conn = get_db_connection()
+        conn.execute('''
+            INSERT INTO chat_history (session_id, sender, message, txn_context)
+            VALUES (?, ?, ?, ?)
+        ''', (session_id, 'USER', user_message, json.dumps(txn_context) if txn_context else None))
+        
+        conn.execute('''
+            INSERT INTO chat_history (session_id, sender, message, txn_context)
+            VALUES (?, ?, ?, ?)
+        ''', (session_id, 'SAFEPAY_AI', ai_result['reply'], json.dumps(txn_context) if txn_context else None))
+        conn.commit()
+        conn.close()
+    except Exception as e:
+        print(f"[DATABASE] Chat history log warning: {e}")
+
+    return jsonify({
+        "status": "success",
+        "reply": ai_result['reply'],
+        "provider": ai_result['provider'],
+        "context_injected": ai_result['context_used'],
+        "timestamp": datetime.utcnow().isoformat()
+    }), 200
+
+# -----------------------------------------------------------------------------
+# 5. Transactions Feed (GET /api/transactions)
 # -----------------------------------------------------------------------------
 @api_bp.route('/transactions', methods=['GET'])
 def get_transactions():
@@ -187,7 +231,7 @@ def get_transactions():
     return jsonify({"status": "success", "count": len(txns), "transactions": txns}), 200
 
 # -----------------------------------------------------------------------------
-# 5. Security Alerts (GET/POST /api/alerts)
+# 6. Security Alerts (GET/POST /api/alerts)
 # -----------------------------------------------------------------------------
 @api_bp.route('/alerts', methods=['GET'])
 def get_alerts():
