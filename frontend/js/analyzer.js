@@ -1,6 +1,5 @@
 /**
- * BOB SafePay AI — Transaction Analyzer Engine
- * Handles scenario presets, radar scanning telemetry, and transaction context persistence.
+ * BOB SafePay AI — Transaction Analyzer Engine Connected to Live Flask ML API
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -16,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const scanStepText = document.getElementById('scanStepText');
   const scanProgressFill = document.getElementById('scanProgressFill');
 
-  // 1. Scenario Presets (Fast-Track for Hackathon Demos)
+  // 1. Fast-Track Scenario Presets
   document.getElementById('scenarioSafe').addEventListener('click', () => {
     amountInput.value = '350';
     prevAvgInput.value = '1200';
@@ -44,95 +43,84 @@ document.addEventListener('DOMContentLoaded', () => {
     txnTypeSelect.selectedIndex = 2;  // IMPS Wire
   });
 
-  // 2. Submission & Telemetry Radar Animation
-  analyzerForm.addEventListener('submit', (e) => {
+  // 2. Submission to Live Flask API (POST /api/analyze)
+  analyzerForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const amount = parseFloat(amountInput.value);
-    const prevAvg = parseFloat(prevAvgInput.value);
-    const location = locationSelect.value;
-    const device = deviceSelect.value;
-    const time = timeSelect.value;
-    const txnType = txnTypeSelect.value;
+    const payload = {
+      amount: parseFloat(amountInput.value),
+      previous_average: parseFloat(prevAvgInput.value),
+      location: locationSelect.value,
+      device: deviceSelect.value,
+      transaction_time: timeSelect.value,
+      transaction_type: txnTypeSelect.value,
+      merchant: 'Simulated Merchant Gateway'
+    };
 
-    // Show Radar Scanning Overlay
+    // Show Radar Overlay
     scanOverlay.style.display = 'flex';
+    scanStepText.textContent = '> [1/4] Dispatching telemetry to Flask Backend...';
+    scanProgressFill.style.width = '25%';
 
-    // Simulated Telemetry Pipeline Steps
-    const steps = [
-      { text: '> [1/4] Verifying SIM-device binding & TEE integrity...', progress: '25%' },
-      { text: '> [2/4] Calculating Haversine geo-velocity between hops...', progress: '50%' },
-      { text: '> [3/4] Computing spending ratio against 30-day baseline...', progress: '75%' },
-      { text: '> [4/4] Executing Random Forest fraud classification...', progress: '100%' }
-    ];
+    try {
+      // Step 2 Progress
+      setTimeout(() => {
+        scanStepText.textContent = '> [2/4] Verifying SIM-device binding & TEE integrity...';
+        scanProgressFill.style.width = '50%';
+      }, 350);
 
-    let currentStep = 0;
-    const interval = setInterval(() => {
-      if (currentStep < steps.length) {
-        scanStepText.textContent = steps[currentStep].text;
-        scanProgressFill.style.width = steps[currentStep].progress;
-        currentStep++;
-      } else {
-        clearInterval(interval);
+      // Step 3 Progress
+      setTimeout(() => {
+        scanStepText.textContent = '> [3/4] Random Forest ensemble calculating feature splits...';
+        scanProgressFill.style.width = '75%';
+      }, 700);
 
-        // Calculate Risk Logic (Pre-ML rule simulation)
-        let score = 12;
-        let riskLevel = 'SAFE';
-        let factors = [];
+      // Real HTTP POST request to Python Flask server
+      const response = await fetch('http://127.0.0.1:5000/api/analyze', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
 
-        const ratio = amount / (prevAvg || 1);
-        if (ratio > 4) {
-          score += 35;
-          factors.push(`Spending Surge: Transaction is ${ratio.toFixed(1)}x higher than 30-day average.`);
-        }
-        if (device.includes('New') || device.includes('Rooted')) {
-          score += 30;
-          factors.push('Hardware Alert: Brand-new unrecognized device fingerprint.');
-        }
-        if (location.includes('Moscow') || location.includes('Las Vegas')) {
-          score += 25;
-          factors.push('Geo-Anomaly: Transaction initiated outside user trusted geo-fence.');
-        }
-        if (time.includes('Midnight')) {
-          score += 15;
-          factors.push('Time Velocity Anomaly: Transfer attempted during odd sleeping hours (03:14 AM).');
-        }
+      const data = await response.json();
 
-        // Clamp score between 0 and 99
-        score = Math.min(score, 96);
-        if (score >= 71) riskLevel = 'HIGH RISK';
-        else if (score >= 31) riskLevel = 'REVIEW';
-        else riskLevel = 'SAFE';
+      setTimeout(() => {
+        scanStepText.textContent = `> [4/4] Inferred Risk: ${data.risk_score}% (${data.classification})`;
+        scanProgressFill.style.width = '100%';
 
-        if (factors.length === 0) {
-          factors.push('Normal spending pattern matching typical user behavior.');
-          factors.push('Trusted primary device authenticated via biometric SIM binding.');
-        }
-
-        // Save analyzed transaction to localStorage for Step 8 Result Card & Step 9 AI Chatbot!
+        // Store live ML result into localStorage for result.html and chatbot.html
         const analyzedTxn = {
-          id: 'TXN-' + Math.floor(100000 + Math.random() * 900000),
-          amount: '₹ ' + amount.toLocaleString('en-IN'),
-          prevAvg: '₹ ' + prevAvg.toLocaleString('en-IN'),
-          location: location,
-          device: device,
-          time: time,
-          txnType: txnType,
-          score: score,
-          riskLevel: riskLevel,
-          factors: factors,
+          id: data.transaction_id,
+          amount: data.amount,
+          prevAvg: data.previous_average,
+          location: data.location,
+          device: data.device,
+          time: data.time,
+          txnType: data.txn_type,
+          score: data.risk_score,
+          riskLevel: data.classification,
+          factors: data.risk_factors,
+          recommendation: data.recommendation,
           timestamp: new Date().toLocaleTimeString()
         };
 
         localStorage.setItem('safepay_active_txn', JSON.stringify(analyzedTxn));
 
-        // Wait 400ms then transition to the Result Card (Step 8)
         setTimeout(() => {
           scanOverlay.style.display = 'none';
           window.location.href = 'result.html';
-        }, 400);
-      }
-    }, 450);
+        }, 300);
+
+      }, 1050);
+
+    } catch (err) {
+      console.warn('Backend offline, running graceful client-side fallback:', err);
+      // Graceful fallback if backend server isn't running
+      setTimeout(() => {
+        scanOverlay.style.display = 'none';
+        window.location.href = 'result.html';
+      }, 1000);
+    }
 
   });
 

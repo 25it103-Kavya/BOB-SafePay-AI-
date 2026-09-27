@@ -1,134 +1,164 @@
 """
-BOB SafePay AI — REST API Endpoints Router
-Defines endpoints for authentication, transaction risk analysis, alerts, and analytics.
+BOB SafePay AI — REST API Endpoints with Live Random Forest ML Inference & SQLite Storage
 """
 
+import sys
+import os
 from flask import Blueprint, request, jsonify
 from datetime import datetime
+import json
 import random
+from werkzeug.security import check_password_hash
+from database import get_db_connection
+
+# Add parent directory to path so we can import from ml.predict
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from ml.predict import predict_transaction_risk
 
 api_bp = Blueprint('api', __name__, url_prefix='/api')
 
 # -----------------------------------------------------------------------------
-# 1. Health Check Endpoint
+# 1. Health Check
 # -----------------------------------------------------------------------------
 @api_bp.route('/health', methods=['GET'])
 def health_check():
-    """Returns gateway status and active security telemetry"""
+    db_status = "connected"
+    try:
+        conn = get_db_connection()
+        conn.execute('SELECT 1')
+        conn.close()
+    except Exception as e:
+        db_status = f"error: {str(e)}"
+
     return jsonify({
         "status": "healthy",
         "service": "BOB SafePay AI Security Gateway",
         "version": "1.0.0",
-        "timestamp": datetime.utcnow().isoformat(),
-        "compliance": "RBI Digital Payment Security Controls (Master Direction)",
-        "models": {
-            "fraud_classifier": "Random Forest v1.4 (Online)",
-            "context_ai": "SafePay AI Assistant Engine (Ready)"
-        }
+        "database": {"engine": "SQLite3", "status": db_status},
+        "ml_engine": {"model": "Random Forest v1.4", "status": "active"},
+        "timestamp": datetime.utcnow().isoformat()
     }), 200
 
 # -----------------------------------------------------------------------------
-# 2. Authentication Endpoint (POST /api/login)
+# 2. Authentication (POST /api/login)
 # -----------------------------------------------------------------------------
 @api_bp.route('/login', methods=['POST'])
 def login():
-    """Simulates student-project session authentication"""
     data = request.get_json() or {}
     email = data.get('email', '').strip().lower()
     password = data.get('password', '').strip()
 
     if not email or not password:
-        return jsonify({
-            "status": "error",
-            "message": "Both authorized email and passcode are required."
-        }), 400
+        return jsonify({"status": "error", "message": "Email and passcode required."}), 400
 
-    # Accept demo credentials or standard email format
-    role = "Administrator" if "admin" in email else "Security Analyst"
-    
+    conn = get_db_connection()
+    user = conn.execute('SELECT * FROM users WHERE email = ?', (email,)).fetchone()
+    conn.close()
+
+    if not user or not check_password_hash(user['password_hash'], password):
+        return jsonify({"status": "error", "message": "Invalid email or security passcode."}), 401
+
     return jsonify({
         "status": "success",
-        "message": "Session authenticated successfully.",
+        "message": f"Welcome back, {user['role']}.",
         "user": {
-            "email": email,
-            "role": role,
-            "token": f"SAFEPAY_JWT_{random.randint(100000, 999999)}",
-            "session_expiry": "8 hours"
+            "id": user['id'],
+            "email": user['email'],
+            "role": user['role'],
+            "token": f"SAFEPAY_JWT_{random.randint(100000, 999999)}"
         }
     }), 200
 
 # -----------------------------------------------------------------------------
-# 3. Transaction Risk Analysis Endpoint (POST /api/analyze)
+# 3. Live ML Transaction Analysis (POST /api/analyze)
 # -----------------------------------------------------------------------------
 @api_bp.route('/analyze', methods=['POST'])
 def analyze_transaction():
-    """Evaluates multi-vector transaction risk telemetry"""
+    """Evaluates payment telemetry using real trained Random Forest Classifier"""
     data = request.get_json() or {}
 
     try:
         amount = float(data.get('amount', 0))
         prev_avg = float(data.get('previous_average', 1))
         location = str(data.get('location', 'Mumbai, IN'))
-        device = str(data.get('device', 'Unknown Hardware'))
+        device = str(data.get('device', 'Primary Device'))
         time_of_day = str(data.get('transaction_time', 'Daytime'))
         txn_type = str(data.get('transaction_type', 'UPI P2P'))
+        merchant = str(data.get('merchant', 'Online Merchant'))
     except (ValueError, TypeError):
-        return jsonify({
-            "status": "error",
-            "message": "Invalid numeric formats for amount or previous_average."
-        }), 400
+        return jsonify({"status": "error", "message": "Invalid numeric format."}), 400
 
-    # Algorithmic Risk Scoring Logic (Simulating ML pipeline)
-    score = 12
-    risk_factors = []
+    # Derive numerical features for the ML model
+    is_new_device = 1 if ("New" in device or "Linux" in device) else 0
+    is_unusual_location = 1 if ("Moscow" in location or "Vegas" in location or "Proxy" in location) else 0
+    is_unusual_time = 1 if ("Midnight" in time_of_day or "03:" in time_of_day) else 0
+    is_rooted_emulator = 1 if ("Rooted" in device or "Emulator" in device) else 0
+    velocity_1h = 4 if is_new_device or is_unusual_location else 1
 
-    # Vector 1: Spending surge ratio
-    ratio = amount / (prev_avg if prev_avg > 0 else 1)
-    if ratio > 4.0:
-        score += 35
-        risk_factors.append(f"Spending Surge: Transfer is {ratio:.1f}x higher than 30-day baseline.")
+    # Call real Random Forest Model!
+    ml_result = predict_transaction_risk({
+        'amount': amount,
+        'previous_average': prev_avg,
+        'is_new_device': is_new_device,
+        'is_unusual_location': is_unusual_location,
+        'is_unusual_time': is_unusual_time,
+        'is_rooted_emulator': is_rooted_emulator,
+        'velocity_1h': velocity_1h
+    })
 
-    # Vector 2: Hardware Fingerprint / SIM integrity
-    if "New" in device or "Rooted" in device or "Linux" in device:
-        score += 30
-        risk_factors.append("Hardware Alert: Unrecognized hardware signature / unverified SIM.")
+    score = ml_result['risk_score']
+    risk_level = ml_result['classification']
+    risk_factors = ml_result['risk_factors']
+    recommendation = ml_result['recommendation']
+    txn_ref = f"TXN-{random.randint(100000, 999999)}"
+    status = "FLAGGED" if risk_level == "HIGH RISK" else ("UNDER REVIEW" if risk_level == "REVIEW" else "APPROVED")
 
-    # Vector 3: Impossible Travel / Foreign Proxy
-    if "Moscow" in location or "Vegas" in location or "Bucharest" in location:
-        score += 25
-        risk_factors.append("Geo-Anomaly: Initiated outside trusted geographic perimeter (Impossible Travel).")
+    # Persist in SQLite
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('''
+        INSERT INTO transactions (
+            txn_ref, merchant, amount, prev_avg, location, device,
+            time_of_day, txn_type, risk_score, risk_level, risk_factors,
+            recommendation, status
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ''', (
+        txn_ref, merchant, amount, prev_avg, location, device,
+        time_of_day, txn_type, score, risk_level, json.dumps(risk_factors),
+        recommendation, status
+    ))
 
-    # Vector 4: Off-hours timestamp
-    if "Midnight" in time_of_day or "03:" in time_of_day:
-        score += 15
-        risk_factors.append("Time Velocity Anomaly: Transaction attempted during sleeping hours (03:14 AM).")
-
-    # Clamp score
-    score = min(score, 96)
-
-    # Classify Tier
+    # Auto-generate Alert for High Risk
     if score >= 71:
-        status = "HIGH RISK"
-        recommendation = "Automated 24h cooling-off hold placed. Mandatory out-of-band biometric challenge required."
-    elif score >= 31:
-        status = "REVIEW"
-        recommendation = "Interactive push OTP verification required on registered smartphone."
-    else:
-        status = "SAFE"
-        recommendation = "Frictionless instant clearing authorized. All statutory bounds satisfied."
-        if not risk_factors:
-            risk_factors.append("Normal spending velocity matching established user profile.")
-            risk_factors.append("Trusted primary hardware bound via device keystore.")
+        alert_ref = f"INC-{random.randint(1000, 9999)}"
+        cursor.execute('''
+            INSERT INTO alerts (
+                alert_ref, severity, title, description, txn_ref, amount, merchant, resolved
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        ''', (
+            alert_ref, "CRITICAL", f"ML Alert: {risk_factors[0] if risk_factors else 'High Risk Pattern'}",
+            f"Random Forest model evaluated risk index {score}%. Mandatory step-up enforced.",
+            txn_ref, f"₹ {amount:,.2f}", merchant, 0
+        ))
+
+    conn.commit()
+    conn.close()
 
     return jsonify({
         "status": "success",
-        "transaction_id": f"TXN-{random.randint(100000, 999999)}",
+        "transaction_id": txn_ref,
         "risk_score": score,
-        "classification": status,
-        "amount": amount,
+        "classification": risk_level,
+        "amount": f"₹ {amount:,.2f}",
+        "previous_average": f"₹ {prev_avg:,.2f}",
+        "location": location,
+        "device": device,
+        "time": time_of_day,
+        "txn_type": txn_type,
         "risk_factors": risk_factors,
         "recommendation": recommendation,
-        "evaluated_at": datetime.utcnow().isoformat()
+        "model_version": ml_result['model_version'],
+        "fraud_probability": ml_result['fraud_probability']
     }), 200
 
 # -----------------------------------------------------------------------------
@@ -136,98 +166,53 @@ def analyze_transaction():
 # -----------------------------------------------------------------------------
 @api_bp.route('/transactions', methods=['GET'])
 def get_transactions():
-    """Returns recent evaluated transaction stream"""
-    mock_txns = [
-        {
-            "id": "TXN-9021",
-            "merchant": "Luxury Electronics Store",
-            "location": "Mumbai, MH (Proxy: Moscow RU)",
-            "device": "New Linux Chrome / Unbound SIM",
-            "amount": 85750.00,
-            "risk_score": 87,
-            "status": "FLAGGED"
-        },
-        {
-            "id": "TXN-9022",
-            "merchant": "Overseas Gaming Token",
-            "location": "Las Vegas, NV (Proxy)",
-            "device": "Rooted Android Emulator",
-            "amount": 42500.00,
-            "risk_score": 92,
-            "status": "FLAGGED"
-        },
-        {
-            "id": "TXN-9023",
-            "merchant": "Crypto P2P Settlement",
-            "location": "Bengaluru, KA",
-            "device": "Trusted MacBook Pro",
-            "amount": 125000.00,
-            "risk_score": 68,
-            "status": "UNDER REVIEW"
-        },
-        {
-            "id": "TXN-9024",
-            "merchant": "Baroda Supermarket Grocery",
-            "location": "Vadodara, GJ",
-            "device": "Primary iPhone 14 Pro",
-            "amount": 1420.00,
-            "risk_score": 14,
-            "status": "APPROVED"
-        }
-    ]
-    return jsonify({
-        "status": "success",
-        "count": len(mock_txns),
-        "transactions": mock_txns
-    }), 200
+    conn = get_db_connection()
+    rows = conn.execute('SELECT * FROM transactions ORDER BY id DESC').fetchall()
+    conn.close()
+
+    txns = []
+    for r in rows:
+        txns.append({
+            "id": r['txn_ref'],
+            "merchant": r['merchant'],
+            "amount": r['amount'],
+            "location": r['location'],
+            "device": r['device'],
+            "risk_score": r['risk_score'],
+            "risk_level": r['risk_level'],
+            "status": r['status'],
+            "created_at": r['created_at']
+        })
+
+    return jsonify({"status": "success", "count": len(txns), "transactions": txns}), 200
 
 # -----------------------------------------------------------------------------
-# 5. Active Security Alerts (GET /api/alerts)
+# 5. Security Alerts (GET/POST /api/alerts)
 # -----------------------------------------------------------------------------
 @api_bp.route('/alerts', methods=['GET'])
 def get_alerts():
-    """Returns active security alarms"""
-    alerts = [
-        {
-            "id": "INC-8812",
-            "severity": "CRITICAL",
-            "title": "Impossible Travel & Unauthorized Linux Device",
-            "txn_id": "TXN-9021",
-            "amount": "₹ 85,750.00",
-            "active": True
-        },
-        {
-            "id": "INC-8813",
-            "severity": "CRITICAL",
-            "title": "Midnight Casino Token Cash-Out Attempt",
-            "txn_id": "TXN-9022",
-            "amount": "₹ 42,500.00",
-            "active": True
-        }
-    ]
-    return jsonify({
-        "status": "success",
-        "active_count": len(alerts),
-        "alerts": alerts
-    }), 200
+    conn = get_db_connection()
+    rows = conn.execute('SELECT * FROM alerts WHERE resolved = 0 ORDER BY id DESC').fetchall()
+    conn.close()
 
-# -----------------------------------------------------------------------------
-# 6. Executive Analytics Metrics (GET /api/analytics)
-# -----------------------------------------------------------------------------
-@api_bp.route('/analytics', methods=['GET'])
-def get_analytics():
-    """Returns macro-level threat statistics"""
-    return jsonify({
-        "status": "success",
-        "metrics": {
-            "protected_volume_cr": 4.82,
-            "intercepted_fraud_lakhs": 24.85,
-            "model_precision": 0.986,
-            "mean_latency_ms": 38,
-            "distribution": {
-                "safe_pct": 84,
-                "review_pct": 11,
-                "high_risk_pct": 5
-            }
-        }
-    }), 200
+    alerts = []
+    for r in rows:
+        alerts.append({
+            "id": r['alert_ref'],
+            "severity": r['severity'],
+            "title": r['title'],
+            "description": r['description'],
+            "txn_id": r['txn_ref'],
+            "amount": r['amount'],
+            "merchant": r['merchant']
+        })
+
+    return jsonify({"status": "success", "active_count": len(alerts), "alerts": alerts}), 200
+
+@api_bp.route('/alerts/<alert_ref>/resolve', methods=['POST'])
+def resolve_alert(alert_ref):
+    conn = get_db_connection()
+    conn.execute('UPDATE alerts SET resolved = 1 WHERE alert_ref = ?', (alert_ref,))
+    conn.commit()
+    conn.close()
+    return jsonify({"status": "success", "message": f"Alert {alert_ref} resolved."}), 200
