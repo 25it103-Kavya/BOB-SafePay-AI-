@@ -815,3 +815,123 @@ a {
   from { opacity: 0; transform: translateY(-5px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* --------------------------------------------------------------------------
+   11. Transaction Analyzer & Scanning Radar Styles
+   -------------------------------------------------------------------------- */
+.scenario-selector {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.scenario-btn {
+  background: var(--bg-input);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  font-weight: 500;
+  padding: 8px 14px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.scenario-btn:hover {
+  border-color: var(--purple-border);
+  color: #FFFFFF;
+  background: var(--purple-subtle);
+}
+
+.scenario-btn.active-safe {
+  border-color: var(--color-safe-border);
+  background: var(--color-safe-bg);
+  color: var(--color-safe);
+}
+
+.scenario-btn.active-risk {
+  border-color: var(--color-risk-border);
+  background: var(--color-risk-bg);
+  color: var(--color-risk);
+}
+
+/* Fullscreen Scanning Radar Overlay */
+.scan-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(5, 5, 5, 0.92);
+  backdrop-filter: blur(8px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.scan-box {
+  background: var(--bg-card);
+  border: 1px solid var(--purple-border);
+  box-shadow: var(--purple-glow-lg);
+  border-radius: var(--radius-lg);
+  padding: 36px 40px;
+  max-width: 480px;
+  width: 90%;
+  text-align: center;
+}
+
+.radar-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 2px solid var(--purple-primary);
+  margin: 0 auto 20px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  box-shadow: 0 0 25px var(--purple-glow);
+}
+
+.radar-circle::after {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  right: -6px;
+  bottom: -6px;
+  border-radius: 50%;
+  border: 2px dashed var(--purple-bright);
+  animation: rotateRadar 4s linear infinite;
+}
+
+@keyframes rotateRadar {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.scan-step-text {
+  font-size: 0.92rem;
+  color: var(--text-main);
+  margin-top: 14px;
+  font-family: monospace;
+}
+
+.scan-progress-bar {
+  width: 100%;
+  height: 6px;
+  background: var(--bg-input);
+  border-radius: var(--radius-full);
+  margin-top: 20px;
+  overflow: hidden;
+}
+
+.scan-progress-fill {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--purple-primary), var(--purple-bright));
+  transition: width 0.3s ease;
+}

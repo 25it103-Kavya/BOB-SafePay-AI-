@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transaction Risk Analyzer — BOB SafePay AI</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div class="app-layout">
+    
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar">
+      <div>
+        <a href="index.html" class="brand">
+          <div class="brand-icon">🛡️</div>
+          <div>
+            <div class="brand-title">BOB SafePay</div>
+            <div style="font-size: 0.72rem; color: var(--purple-bright); font-weight: 600;">AI SENTINEL v1.0</div>
+          </div>
+        </a>
+
+        <div class="nav-section-title">Operations</div>
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="dashboard.html" class="nav-item-content">
+              <span>📊</span>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item active">
+            <a href="transaction.html" class="nav-item-content">
+              <span>⚡</span>
+              <span>Risk Analyzer</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="chatbot.html" class="nav-item-content">
+              <span>🤖</span>
+              <span>SafePay AI</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="alerts.html" class="nav-item-content">
+              <span>🔔</span>
+              <span>Security Alerts</span>
+            </a>
+            <span class="nav-badge nav-badge-risk">4</span>
+          </li>
+          <li class="nav-item">
+            <a href="analytics.html" class="nav-item-content">
+              <span>📈</span>
+              <span>Analytics</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div style="border-top: 1px solid var(--border-subtle); padding-top: 16px;">
+        <div class="user-profile" style="background: transparent; border: none; padding: 0;">
+          <div class="avatar">SA</div>
+          <div>
+            <div style="font-size: 0.88rem; font-weight: 600;">Security Analyst</div>
+            <div style="font-size: 0.74rem; color: var(--text-muted);">BOB Fraud Ops</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+      
+      <!-- Top Header -->
+      <header class="top-header">
+        <div>
+          <h1 class="page-title">Transaction Risk Analyzer</h1>
+          <p class="page-subtitle">Simulate and evaluate payment risk telemetry using our Random Forest Classifier</p>
+        </div>
+        <a href="dashboard.html" class="btn btn-secondary" style="font-size: 0.88rem;">
+          ← Back to Dashboard
+        </a>
+      </header>
+
+      <!-- Fast-Track Hackathon Scenarios -->
+      <div style="margin-bottom: 24px;">
+        <div style="font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-dim); margin-bottom: 10px; font-weight: 600;">
+          ⚡ Fast-Track Demo Scenarios (Click to auto-fill)
+        </div>
+        <div class="scenario-selector">
+          <button type="button" class="scenario-btn active-safe" id="scenarioSafe">
+            🟢 Scenario 1: Grocery UPI (₹350 • Safe)
+          </button>
+          <button type="button" class="scenario-btn" id="scenarioReview">
+            🟡 Scenario 2: High Wire (₹45,000 • Step-Up Review)
+          </button>
+          <button type="button" class="scenario-btn active-risk" id="scenarioDanger">
+            🔴 Scenario 3: Midnight Moscow ATO (₹85,750 • High Risk)
+          </button>
+        </div>
+      </div>
+
+      <!-- Main Form Card -->
+      <div class="card card-glow" style="max-width: 820px;">
+        <form id="analyzerForm">
+          
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            
+            <!-- Amount -->
+            <div class="form-group">
+              <label class="form-label" for="amount">Transaction Amount (INR ₹)</label>
+              <input type="number" id="amount" class="form-input" placeholder="e.g. 85750" required value="85750">
+            </div>
+
+            <!-- Historical Average -->
+            <div class="form-group">
+              <label class="form-label" for="prevAvg">User's 30-Day Average Amount (₹)</label>
+              <input type="number" id="prevAvg" class="form-input" placeholder="e.g. 12000" required value="12000">
+            </div>
+
+            <!-- Location -->
+            <div class="form-group">
+              <label class="form-label" for="location">Initiating Geolocation / IP City</label>
+              <select id="location" class="form-select">
+                <option value="Mumbai, IN (Registered Home)">Mumbai, MH (User Registered Home)</option>
+                <option value="Vadodara, GJ (Frequent)">Vadodara, GJ (Frequent Business Zone)</option>
+                <option value="Delhi, DL">Delhi, DL (Domestic Travel)</option>
+                <option value="Moscow, RU (Proxy Breach)" selected>Moscow, RU (Foreign / Proxy Anomaly)</option>
+                <option value="Las Vegas, NV (Proxy)">Las Vegas, NV (Impossible Travel)</option>
+              </select>
+            </div>
+
+            <!-- Device Status -->
+            <div class="form-group">
+              <label class="form-label" for="device">Hardware Fingerprint / Device Integrity</label>
+              <select id="device" class="form-select">
+                <option value="Registered iPhone 14 Pro">Primary Bound Hardware (iPhone 14 Pro - iOS 17)</option>
+                <option value="Trusted Work Laptop">Trusted MacBook Pro (Chrome Browser)</option>
+                <option value="New Linux Chrome" selected>⚠️ Brand-New Hardware (Linux Chrome / Unverified SIM)</option>
+                <option value="Rooted Android Emulator">⚠️ Rooted Android Device (QEMU Emulator Detected)</option>
+              </select>
+            </div>
+
+            <!-- Time of Day -->
+            <div class="form-group">
+              <label class="form-label" for="timeOfDay">Transaction Timestamp</label>
+              <select id="timeOfDay" class="form-select">
+                <option value="Daytime (02:45 PM)">Daytime Business Hours (02:45 PM)</option>
+                <option value="Evening (08:20 PM)">Evening Leisure (08:20 PM)</option>
+                <option value="Midnight (03:14 AM)" selected>⚠️ Midnight Anomaly (03:14 AM - Sleeping Hours)</option>
+              </select>
+            </div>
+
+            <!-- Transfer Type -->
+            <div class="form-group">
+              <label class="form-label" for="txnType">Payment Protocol Channel</label>
+              <select id="txnType" class="form-select">
+                <option value="UPI P2M (Merchant QR)">UPI P2M (Merchant QR / Verified Merchant)</option>
+                <option value="UPI P2P (Peer Transfer)">UPI P2P (Peer Transfer / Immediate Outflow)</option>
+                <option value="IMPS / NetBanking Wire" selected>IMPS High-Value Wire Transfer</option>
+                <option value="Crypto On-Ramp Gateway">Crypto On-Ramp Gateway</option>
+              </select>
+            </div>
+
+          </div>
+
+          <!-- Submit Button -->
+          <div style="margin-top: 10px;">
+            <button type="submit" id="analyzeBtn" class="btn btn-primary" style="width: 100%; padding: 14px; font-size: 1rem;">
+              ⚡ Run Real-Time AI Fraud Evaluation →
+            </button>
+          </div>
+
+        </form>
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- RADAR SCANNING OVERLAY MODAL -->
+  <div id="scanOverlay" class="scan-overlay">
+    <div class="scan-box">
+      <div class="radar-circle">📡</div>
+      <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 4px;">Evaluating Payment Telemetry</h3>
+      <div style="font-size: 0.8rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em;">
+        RBI Master Direction Compliance Check
+      </div>
+
+      <div class="scan-step-text" id="scanStepText">
+        &gt; Initiating hardware SIM-binding check...
+      </div>
+
+      <div class="scan-progress-bar">
+        <div class="scan-progress-fill" id="scanProgressFill"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Analyzer Script -->
+  <script src="js/analyzer.js"></script>
+</body>
+</html>
