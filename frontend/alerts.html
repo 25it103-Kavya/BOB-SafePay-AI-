@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Security Alerts & Incident Dispatch — BOB SafePay AI</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div class="app-layout">
+    
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar">
+      <div>
+        <a href="index.html" class="brand">
+          <div class="brand-icon">🛡️</div>
+          <div>
+            <div class="brand-title">BOB SafePay</div>
+            <div style="font-size: 0.72rem; color: var(--purple-bright); font-weight: 600;">AI SENTINEL v1.0</div>
+          </div>
+        </a>
+
+        <div class="nav-section-title">Operations</div>
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="dashboard.html" class="nav-item-content">
+              <span>📊</span>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="transaction.html" class="nav-item-content">
+              <span>⚡</span>
+              <span>Risk Analyzer</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="chatbot.html" class="nav-item-content">
+              <span>🤖</span>
+              <span>SafePay AI</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="history.html" class="nav-item-content">
+              <span>📜</span>
+              <span>Transaction History</span>
+            </a>
+          </li>
+          <li class="nav-item active">
+            <a href="alerts.html" class="nav-item-content">
+              <span>🔔</span>
+              <span>Security Alerts</span>
+            </a>
+            <span class="nav-badge nav-badge-risk" id="sidebarAlertCount">4</span>
+          </li>
+          <li class="nav-item">
+            <a href="analytics.html" class="nav-item-content">
+              <span>📈</span>
+              <span>Analytics</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div style="border-top: 1px solid var(--border-subtle); padding-top: 16px;">
+        <div class="user-profile" style="background: transparent; border: none; padding: 0;">
+          <div class="avatar">SA</div>
+          <div>
+            <div style="font-size: 0.88rem; font-weight: 600;">Security Analyst</div>
+            <div style="font-size: 0.74rem; color: var(--text-muted);">BOB Fraud Ops</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+      
+      <!-- Top Header -->
+      <header class="top-header">
+        <div>
+          <h1 class="page-title">Security Alerts & Incident Dispatch</h1>
+          <p class="page-subtitle">Real-time threat notifications triggered by AI anomaly engine and RBI velocity rules</p>
+        </div>
+        <div style="display: flex; gap: 10px;">
+          <button type="button" id="markAllResolvedBtn" class="btn btn-secondary" style="font-size: 0.88rem;">
+            ✓ Resolve All Active
+          </button>
+        </div>
+      </header>
+
+      <!-- KPI THREAT COUNTER CARDS -->
+      <section class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <div class="kpi-title">Active Alarms</div>
+            <div class="kpi-icon kpi-icon-danger">🚨</div>
+          </div>
+          <div class="kpi-value" id="kpiActiveAlarms">4</div>
+          <div class="kpi-trend trend-up-danger">Requires Analyst Review</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <div class="kpi-title">Critical Severity</div>
+            <div class="kpi-icon kpi-icon-danger">⚡</div>
+          </div>
+          <div class="kpi-value" id="kpiCriticalAlarms">2</div>
+          <div class="kpi-trend trend-up-danger">Automated Hold Placed</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <div class="kpi-title">Step-Up Reviews</div>
+            <div class="kpi-icon kpi-icon-warning">⏳</div>
+          </div>
+          <div class="kpi-value" id="kpiReviewAlarms">1</div>
+          <div class="kpi-trend" style="color: var(--color-review);">Awaiting Biometric OTP</div>
+        </div>
+
+        <div class="kpi-card card-glow">
+          <div class="kpi-header">
+            <div class="kpi-title">Resolved Incidents</div>
+            <div class="kpi-icon kpi-icon-safe">✓</div>
+          </div>
+          <div class="kpi-value" style="color: var(--color-safe);" id="kpiResolvedAlarms">18</div>
+          <div class="kpi-trend" style="color: var(--text-muted);">Last 30-day resolution rate</div>
+        </div>
+      </section>
+
+      <!-- FILTER TABS BAR -->
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
+        <div class="filter-tabs">
+          <button class="filter-tab active" id="tabAll">All Active (4)</button>
+          <button class="filter-tab" id="tabCritical">Critical Threats (2)</button>
+          <button class="filter-tab" id="tabReview">Under Review (1)</button>
+          <button class="filter-tab" id="tabResolved">Resolved (18)</button>
+        </div>
+        <div style="font-size: 0.82rem; color: var(--text-dim);">
+          Auto-refresh active (Websocket Simulator: Online)
+        </div>
+      </div>
+
+      <!-- INCIDENT FEED CONTAINER -->
+      <div id="incidentContainer">
+        <!-- Dynamically rendered by alerts.js -->
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- Alerts Script -->
+  <script src="js/alerts.js"></script>
+</body>
+</html>
