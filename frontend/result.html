@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Security Evaluation Verdict — BOB SafePay AI</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div class="app-layout">
+    
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar">
+      <div>
+        <a href="index.html" class="brand">
+          <div class="brand-icon">🛡️</div>
+          <div>
+            <div class="brand-title">BOB SafePay</div>
+            <div style="font-size: 0.72rem; color: var(--purple-bright); font-weight: 600;">AI SENTINEL v1.0</div>
+          </div>
+        </a>
+
+        <div class="nav-section-title">Operations</div>
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="dashboard.html" class="nav-item-content">
+              <span>📊</span>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item active">
+            <a href="transaction.html" class="nav-item-content">
+              <span>⚡</span>
+              <span>Risk Analyzer</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="chatbot.html" class="nav-item-content">
+              <span>🤖</span>
+              <span>SafePay AI</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="alerts.html" class="nav-item-content">
+              <span>🔔</span>
+              <span>Security Alerts</span>
+            </a>
+            <span class="nav-badge nav-badge-risk">4</span>
+          </li>
+          <li class="nav-item">
+            <a href="analytics.html" class="nav-item-content">
+              <span>📈</span>
+              <span>Analytics</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div style="border-top: 1px solid var(--border-subtle); padding-top: 16px;">
+        <div class="user-profile" style="background: transparent; border: none; padding: 0;">
+          <div class="avatar">SA</div>
+          <div>
+            <div style="font-size: 0.88rem; font-weight: 600;">Security Analyst</div>
+            <div style="font-size: 0.74rem; color: var(--text-muted);">BOB Fraud Ops</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+      
+      <!-- Top Breadcrumb Header -->
+      <header class="top-header">
+        <div>
+          <h1 class="page-title">Risk Scoring & Security Verdict</h1>
+          <p class="page-subtitle" id="txnSubtitle">Evaluation Reference: TXN-Loading...</p>
+        </div>
+        <div style="display: flex; gap: 10px;">
+          <a href="transaction.html" class="btn btn-secondary" style="font-size: 0.88rem;">
+            ← Evaluate Another
+          </a>
+        </div>
+      </header>
+
+      <!-- MAIN VERDICT CARD WITH CIRCULAR GAUGE -->
+      <section class="result-header-card card-glow">
+        
+        <div class="gauge-container">
+          
+          <!-- Animated SVG Circular Gauge -->
+          <div class="circular-gauge">
+            <svg>
+              <circle class="gauge-bg" cx="75" cy="75" r="65"></circle>
+              <circle class="gauge-fill" id="gaugeCircle" cx="75" cy="75" r="65"></circle>
+            </svg>
+            <div class="gauge-number-box">
+              <div class="gauge-number" id="gaugeScoreNum">0</div>
+              <div class="gauge-unit">Risk Index</div>
+            </div>
+          </div>
+
+          <!-- Verdict Details -->
+          <div style="flex: 1;">
+            <div style="margin-bottom: 8px;">
+              <span class="badge" id="verdictBadge">EVALUATING...</span>
+            </div>
+            <h2 style="font-size: 1.85rem; font-weight: 800; margin-bottom: 6px;" id="verdictTitle">
+              Analysis Complete
+            </h2>
+            <p style="color: var(--text-muted); font-size: 0.95rem; max-width: 600px;" id="verdictSummary">
+              The transaction telemetry has been cross-referenced with your 30-day baseline and known cyber threats.
+            </p>
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- TRANSACTION CONTEXT SUMMARY -->
+      <div class="table-card" style="margin-bottom: 24px;">
+        <h3 style="font-size: 1.05rem; margin-bottom: 16px;">Inspected Payment Telemetry</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
+          <div>
+            <div class="stat-label">Transfer Amount</div>
+            <div class="stat-value" id="summaryAmount" style="font-size: 1.4rem;">₹ 0.00</div>
+          </div>
+          <div>
+            <div class="stat-label">30-Day Historical Baseline</div>
+            <div class="stat-value" id="summaryPrevAvg" style="font-size: 1.4rem; color: var(--text-muted);">₹ 0.00</div>
+          </div>
+          <div>
+            <div class="stat-label">Initiating Geolocation</div>
+            <div style="font-weight: 600; font-size: 1rem; color: #FFFFFF;" id="summaryLocation">—</div>
+          </div>
+          <div>
+            <div class="stat-label">Hardware Fingerprint</div>
+            <div style="font-weight: 600; font-size: 1rem; color: #FFFFFF;" id="summaryDevice">—</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EXPLAINABLE AI RISK FACTORS -->
+      <section class="card" style="margin-bottom: 24px;">
+        <h3 style="font-size: 1.05rem; display: flex; align-items: center; gap: 8px;">
+          <span>🔍</span> Explainable AI (XAI) Factor Breakdown
+        </h3>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">
+          Random Forest feature importance analysis explaining why this payment received its score.
+        </p>
+
+        <div class="factor-list" id="factorContainer">
+          <!-- Dynamically populated by result.js -->
+        </div>
+      </section>
+
+      <!-- RECOMMENDED ACTION & INTERVENTION -->
+      <div class="action-box">
+        <div>
+          <div style="font-weight: 700; color: #FFFFFF; font-size: 0.95rem;" id="recommendationTitle">
+            Recommended Action: Dynamic Authentication
+          </div>
+          <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 3px;" id="recommendationText">
+            Enforce mandatory out-of-band biometric challenge before clearing payment.
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 12px; align-items: center;">
+          <a href="#" id="askAIBtn" class="btn btn-primary" style="padding: 10px 20px;">
+            🤖 Ask SafePay AI Why Flagged →
+          </a>
+          <button type="button" id="freezeBtn" class="btn btn-danger" style="padding: 10px 18px;">
+            🔒 Emergency Freeze UPI
+          </button>
+        </div>
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- Result Logic Script -->
+  <script src="js/result.js"></script>
+</body>
+</html>
