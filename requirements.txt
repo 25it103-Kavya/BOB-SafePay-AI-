@@ -1,16 +1,9 @@
-# Web Server Framework & API Tools
-Flask==3.0.3
-Flask-Cors==4.0.1
-Werkzeug==3.0.3
-
-# Environment Variables Management
-python-dotenv==1.0.1
-
-# AI, Data Science & Machine Learning
-pandas==2.2.2
-numpy==1.26.4
-scikit-learn==1.5.0
-joblib==1.4.2
-
-# HTTP Requests for AI APIs
-requests==2.32.3
+Flask>=3.0.0
+flask-cors>=4.0.0
+python-dotenv>=1.0.0
+scikit-learn>=1.4.0
+pandas>=2.1.0
+numpy>=1.26.0
+joblib>=1.3.0
+requests>=2.31.0
+gunicorn>=21.2.0
