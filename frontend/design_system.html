@@ -3,278 +3,203 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BOB SafePay AI — Security Operations Showcase</title>
+  <title>Design System | BOB SafePay AI</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-  <div class="app-layout">
-    
-    <!-- LEFT SIDEBAR (Finora Style) -->
-    <aside class="sidebar">
-      <div>
-        <div class="brand">
-          <div class="brand-icon">🛡️</div>
-          <div>
-            <div class="brand-title">BOB SafePay</div>
-            <div style="font-size: 0.72rem; color: var(--purple-bright); font-weight: 600;">AI SENTINEL v1.0</div>
-          </div>
-        </div>
-
-        <div class="nav-section-title">Analysis Tools</div>
-        <ul class="nav-list">
-          <li class="nav-item active">
-            <div class="nav-item-content">
-              <span>📊</span>
-              <span>Dashboard</span>
-            </div>
-          </li>
-          <li class="nav-item">
-            <div class="nav-item-content">
-              <span>⚡</span>
-              <span>Transaction Analyzer</span>
-            </div>
-          </li>
-          <li class="nav-item">
-            <div class="nav-item-content">
-              <span>🤖</span>
-              <span>SafePay AI Chat</span>
-            </div>
-            <span class="nav-badge" style="background: var(--purple-subtle); color: var(--purple-bright); border: 1px solid var(--purple-border);">Online</span>
-          </li>
-          <li class="nav-item">
-            <div class="nav-item-content">
-              <span>📜</span>
-              <span>Transaction History</span>
-            </div>
-          </li>
-          <li class="nav-item">
-            <div class="nav-item-content">
-              <span>📈</span>
-              <span>Threat Analytics</span>
-            </div>
-          </li>
-        </ul>
-
-        <div class="nav-section-title">Alert Status</div>
-        <ul class="nav-list">
-          <li class="nav-item">
-            <div class="nav-item-content">
-              <span style="color: var(--color-risk);">●</span>
-              <span>High Risk</span>
-            </div>
-            <span class="nav-badge nav-badge-risk">4</span>
-          </li>
-          <li class="nav-item">
-            <div class="nav-item-content">
-              <span style="color: var(--color-review);">●</span>
-              <span>Under Review</span>
-            </div>
-            <span class="nav-badge" style="background: var(--color-review-bg); color: var(--color-review);">1</span>
-          </li>
-        </ul>
-      </div>
-
-      <!-- Bottom User Snippet -->
-      <div style="border-top: 1px solid var(--border-subtle); padding-top: 18px;">
-        <div class="user-profile" style="background: transparent; border: none; padding: 0;">
-          <div class="avatar">SA</div>
-          <div>
-            <div style="font-size: 0.88rem; font-weight: 600;">Security Analyst</div>
-            <div style="font-size: 0.74rem; color: var(--text-muted);">BOB Fraud Ops</div>
-          </div>
-        </div>
-      </div>
-    </aside>
-
-    <!-- MAIN CONTENT AREA -->
-    <main class="main-content">
-      
-      <!-- TOP HEADER -->
-      <header class="top-header">
-        <div>
-          <h1 class="page-title">Fraud Detection Dashboard</h1>
-          <p class="page-subtitle">Real-time digital payment transaction monitoring and threat analysis</p>
-        </div>
-        <div class="user-profile">
-          <div class="avatar">SA</div>
-          <span style="font-size: 0.88rem; font-weight: 500;">Bank of Baroda Gateway</span>
-        </div>
-      </header>
-
-      <!-- KPI THREAT CARDS (FraudGuard Style) -->
-      <section class="kpi-grid">
-        <div class="kpi-card">
-          <div class="kpi-header">
-            <div class="kpi-title">Flagged Transactions</div>
-            <div class="kpi-icon kpi-icon-danger">⚠️</div>
-          </div>
-          <div class="kpi-value">4</div>
-          <div class="kpi-trend trend-up-danger">▲ +12% from yesterday</div>
-        </div>
-
-        <div class="kpi-card">
-          <div class="kpi-header">
-            <div class="kpi-title">High Risk Alerts</div>
-            <div class="kpi-icon kpi-icon-danger">🛡️</div>
-          </div>
-          <div class="kpi-value">4</div>
-          <div class="kpi-trend trend-up-danger">▲ +5% from yesterday</div>
-        </div>
-
-        <div class="kpi-card">
-          <div class="kpi-header">
-            <div class="kpi-title">Under Review</div>
-            <div class="kpi-icon kpi-icon-warning">⏳</div>
-          </div>
-          <div class="kpi-value">1</div>
-          <div class="kpi-trend trend-down-safe">▼ -8% from yesterday</div>
-        </div>
-
-        <div class="kpi-card">
-          <div class="kpi-header">
-            <div class="kpi-title">System Protection Rate</div>
-            <div class="kpi-icon kpi-icon-safe">✓</div>
-          </div>
-          <div class="kpi-value" style="color: var(--color-safe);">99.2%</div>
-          <div class="kpi-trend" style="color: var(--text-muted);">Zero false negatives</div>
-        </div>
-      </section>
-
-      <!-- FLAGGED TRANSACTIONS TABLE (FraudGuard Style) -->
-      <section class="table-card">
-        <div class="table-header-row">
-          <div>
-            <h2 class="table-title">Flagged Transactions</h2>
-            <p style="font-size: 0.82rem; color: var(--text-muted);">Real-time stream analyzed by Random Forest Classifier</p>
-          </div>
-          <div class="filter-tabs">
-            <button class="filter-tab">All</button>
-            <button class="filter-tab active">Flagged (4)</button>
-            <button class="filter-tab">Under Review (1)</button>
-          </div>
-        </div>
-
-        <table class="fraud-table">
-          <thead>
-            <tr>
-              <th>Transaction / Merchant</th>
-              <th>Risk Score</th>
-              <th>Amount</th>
-              <th>Status</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <div class="merchant-cell">
-                  <div class="merchant-icon">💻</div>
-                  <div>
-                    <div class="merchant-name">Luxury Electronics Store</div>
-                    <div class="merchant-location">📍 Mumbai, MH • New Device (Linux Chrome)</div>
-                  </div>
-                </div>
-              </td>
-              <td>
-                <span class="risk-pill risk-pill-high">⚠️ 87% High Risk</span>
-              </td>
-              <td style="font-weight: 700; font-size: 1rem;">₹ 85,750.00</td>
-              <td>
-                <span class="status-badge status-flagged">Flagged</span>
-              </td>
-              <td>
-                <button class="ai-chip" style="padding: 4px 10px; font-size: 0.78rem;">Ask AI 🤖</button>
-              </td>
-            </tr>
-
-            <tr>
-              <td>
-                <div class="merchant-cell">
-                  <div class="merchant-icon">🎰</div>
-                  <div>
-                    <div class="merchant-name">Casino & Gaming Token</div>
-                    <div class="merchant-location">📍 Las Vegas, NV (Proxy) • Midnight 03:14 AM</div>
-                  </div>
-                </div>
-              </td>
-              <td>
-                <span class="risk-pill risk-pill-high">⚠️ 92% High Risk</span>
-              </td>
-              <td style="font-weight: 700; font-size: 1rem;">₹ 42,500.00</td>
-              <td>
-                <span class="status-badge status-flagged">Flagged</span>
-              </td>
-              <td>
-                <button class="ai-chip" style="padding: 4px 10px; font-size: 0.78rem;">Ask AI 🤖</button>
-              </td>
-            </tr>
-
-            <tr>
-              <td>
-                <div class="merchant-cell">
-                  <div class="merchant-icon">☕</div>
-                  <div>
-                    <div class="merchant-name">Global Coffee Chain</div>
-                    <div class="merchant-location">📍 Baroda, GJ • Trusted iPhone 14</div>
-                  </div>
-                </div>
-              </td>
-              <td>
-                <span class="risk-pill risk-pill-low">✓ 23% Low Risk</span>
-              </td>
-              <td style="font-weight: 700; font-size: 1rem;">₹ 350.00</td>
-              <td>
-                <span class="status-badge status-approved">Approved</span>
-              </td>
-              <td>
-                <span style="color: var(--text-dim); font-size: 0.8rem;">Auto-cleared</span>
-              </td>
-            </tr>
-
-            <tr>
-              <td>
-                <div class="merchant-cell">
-                  <div class="merchant-icon">🪙</div>
-                  <div>
-                    <div class="merchant-name">Crypto Exchange Wire</div>
-                    <div class="merchant-location">📍 Bengaluru, KA • 4.8x Historical Avg</div>
-                  </div>
-                </div>
-              </td>
-              <td>
-                <span class="risk-pill risk-pill-review">⏳ 68% Review</span>
-              </td>
-              <td style="font-weight: 700; font-size: 1rem;">₹ 1,25,000.00</td>
-              <td>
-                <span class="status-badge status-review">Under Review</span>
-              </td>
-              <td>
-                <button class="ai-chip" style="padding: 4px 10px; font-size: 0.78rem;">Ask AI 🤖</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
-
-      <!-- NOVBank-Style AI AGENT SECTION -->
-      <section class="ai-agent-card">
-        <div class="ai-orb">🔮</div>
-        <h3 style="font-size: 1.35rem; font-weight: 700; margin-bottom: 6px;">SafePay AI Intelligence</h3>
-        <p style="color: var(--text-muted); font-size: 0.92rem; max-width: 520px; margin: 0 auto;">
-          Context-aware cybersecurity assistant trained on banking transaction risk models.
-        </p>
-
-        <div class="ai-chips-container">
-          <button class="ai-chip">"Why was the Luxury Electronics transfer flagged?"</button>
-          <button class="ai-chip">"Explain the 87% risk score calculation"</button>
-          <button class="ai-chip">"Is the Mumbai location a recognized geo-fence?"</button>
-        </div>
-      </section>
-
-    </main>
-
+  <div class="top-strip">
+    <div class="container">
+      <span>Customer Helpline: 1800-258-4455 &nbsp;|&nbsp; NCRP Cyber Fraud: 1930</span>
+      <span class="ticker">Security Advisory: Never share OTP, PIN or install remote-access apps.</span>
+    </div>
   </div>
 
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="index.html">
+        <span class="brand-mark">S</span>
+        <span>BOB SafePay AI<small>Digital Payment Security Platform</small></span>
+      </a>
+      <div class="nav-links">
+        <span class="badge badge-compliance">RBI Master Direction Compliant</span>
+        <span class="badge badge-compliance">256-Bit TLS</span>
+        <span class="badge badge-compliance">NCRP 1930 Integrated</span>
+        <button class="btn btn-secondary btn-sm" id="themeBtn" type="button">Toggle Dark Mode</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" style="padding-top:1.5rem;">
+    <h1>Design System</h1>
+    <p class="muted">Every component used across BOB SafePay AI. Student mock project, not affiliated with Bank of Baroda.</p>
+
+    <!-- COLOR PALETTE -->
+    <section class="card" style="margin-bottom:1rem;">
+      <div class="card-header"><h2>Color Tokens</h2></div>
+      <div class="grid grid-4">
+        <div><div style="height:44px;background:var(--accent);border-radius:6px"></div><small>Accent #EA580C</small></div>
+        <div><div style="height:44px;background:var(--blue);border-radius:6px"></div><small>Corporate Blue #0284C7</small></div>
+        <div><div style="height:44px;background:var(--navy);border-radius:6px"></div><small>Navy #1E40AF</small></div>
+        <div><div style="height:44px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px"></div><small>Sub-surface</small></div>
+        <div><div style="height:44px;background:var(--safe);border-radius:6px"></div><small>SAFE #15803D</small></div>
+        <div><div style="height:44px;background:var(--review);border-radius:6px"></div><small>REVIEW #D97706</small></div>
+        <div><div style="height:44px;background:var(--high);border-radius:6px"></div><small>HIGH RISK #DC2626</small></div>
+        <div><div style="height:44px;background:var(--text);border-radius:6px"></div><small>Primary text</small></div>
+      </div>
+      <p class="helper">Green, amber and red are reserved strictly for risk states.</p>
+    </section>
+
+    <!-- BUTTONS & PILLS -->
+    <section class="card" style="margin-bottom:1rem;">
+      <div class="card-header"><h2>Buttons, Badges and Risk Pills</h2></div>
+      <p>
+        <button class="btn btn-primary" type="button">Access Security Gateway</button>
+        <button class="btn btn-secondary" type="button">Analyst Sign In</button>
+        <button class="btn btn-danger" type="button">Freeze Account</button>
+        <button class="btn btn-ghost" type="button">Ask SafePay AI</button>
+        <button class="btn btn-primary" type="button" disabled>Disabled</button>
+      </p>
+      <p>
+        <span class="pill pill-safe">Safe</span>
+        <span class="pill pill-review">Review</span>
+        <span class="pill pill-high">High Risk</span>
+        <span class="badge">Neutral badge</span>
+        <span class="nav-badge">3</span>
+        <span><span class="status-dot"></span>Gateway Online</span>
+      </p>
+      <div class="banner banner-safe" style="margin-bottom:.5rem">SAFE: Instant clearance</div>
+      <div class="banner banner-review" style="margin-bottom:.5rem">REVIEW: Step-up authentication required</div>
+      <div class="banner banner-high">HIGH RISK: 24-hour cooling-off hold applied</div>
+    </section>
+
+    <!-- KPI CARDS -->
+    <section style="margin-bottom:1rem;">
+      <div class="grid grid-4">
+        <div class="card kpi kpi-blue"><div class="kpi-label">Flagged Payments</div><div class="kpi-value">128</div><div class="kpi-note">Last 24 hours</div></div>
+        <div class="card kpi kpi-high"><div class="kpi-label">High-Risk Interceptions</div><div class="kpi-value">17</div><div class="kpi-note">Holds applied</div></div>
+        <div class="card kpi kpi-review"><div class="kpi-label">Under Review</div><div class="kpi-value">42</div><div class="kpi-note">Awaiting step-up</div></div>
+        <div class="card kpi kpi-safe"><div class="kpi-label">Health Index</div><div class="kpi-value">98.4%</div><div class="kpi-note">All systems normal</div></div>
+      </div>
+    </section>
+
+    <!-- TABLE -->
+    <section class="card" style="margin-bottom:1rem;">
+      <div class="card-header"><h2>Data Table (tabular INR figures)</h2></div>
+      <div class="table-wrap">
+        <table class="data">
+          <thead>
+            <tr><th>Reference</th><th>Merchant</th><th>Location</th><th class="num">Amount</th><th>Risk</th><th></th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="mono">TXN-20260928-001</td><td>Local Grocery UPI</td><td>Anand, IN</td><td class="num">&#8377; 350.00</td><td><span class="pill pill-safe">Safe</span></td><td><button class="btn btn-ghost btn-sm" type="button">Ask AI</button></td></tr>
+            <tr><td class="mono">TXN-20260928-002</td><td>IMPS Wire Transfer</td><td>Mumbai, IN</td><td class="num">&#8377; 45,000.00</td><td><span class="pill pill-review">Review</span></td><td><button class="btn btn-ghost btn-sm" type="button">Ask AI</button></td></tr>
+            <tr><td class="mono">TXN-20260928-003</td><td>Crypto Gateway</td><td>Bucharest, RO</td><td class="num">&#8377; 85,750.00</td><td><span class="pill pill-high">High Risk</span></td><td><button class="btn btn-ghost btn-sm" type="button">Ask AI</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- FORM + ALERT -->
+    <section class="grid grid-2" style="margin-bottom:1rem;">
+      <div class="card">
+        <div class="card-header"><h2>Form Controls</h2></div>
+        <div class="form-group">
+          <label for="amt">Transaction Amount (&#8377;)</label>
+          <input class="input" id="amt" type="number" placeholder="85750.00">
+          <div class="helper">Enter the amount in Indian Rupees.</div>
+        </div>
+        <div class="form-group">
+          <label for="ch">Payment Channel</label>
+          <select class="input" id="ch">
+            <option>UPI P2P</option><option>UPI P2M QR</option><option>IMPS Wire</option><option>Crypto Gateway</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="pw">Security Passcode</label>
+          <div class="input-group">
+            <input class="input" id="pw" type="password" placeholder="Enter passcode">
+            <button class="btn btn-ghost btn-sm toggle-vis" type="button" id="showPw">Show</button>
+          </div>
+          <div class="error-text">Example validation message.</div>
+        </div>
+        <div class="check-row"><input type="checkbox" id="bind"><label for="bind">Bind session to hardware keystore</label></div>
+        <p style="margin-top:1rem" class="check-row">
+          <label class="switch"><input type="checkbox" checked aria-label="24-hour cooling-off"><span class="slider"></span></label>
+          24-Hour Cooling-Off Enforcement
+        </p>
+      </div>
+
+      <div class="card alert-card alert-critical">
+        <div class="card-header">
+          <h2>Alert Card</h2><span class="pill pill-high">Critical</span>
+        </div>
+        <p><strong>Midnight account takeover suspected</strong></p>
+        <p class="muted">Amount &#8377; 85,750.00 from a new device, SIM changed 6 hours ago.</p>
+        <button class="btn btn-primary btn-sm" type="button">Mark Resolved</button>
+        <button class="btn btn-danger btn-sm" type="button">Freeze Account</button>
+        <button class="btn btn-ghost btn-sm" type="button">Consult SafePay AI</button>
+        <hr style="border:none;border-top:1px solid var(--border);margin:1rem 0">
+        <button class="btn btn-secondary" type="button" id="openModal">Open Audit Modal</button>
+      </div>
+    </section>
+
+    <!-- CHAT -->
+    <section class="card">
+      <div class="card-header"><h2>Chat Components</h2><span class="badge badge-compliance">RBI Compliance</span></div>
+      <div class="context-strip" style="margin-bottom:.75rem">
+        <strong>Active context:</strong>
+        <span class="mono">TXN-20260928-003</span>
+        <span class="num">&#8377; 85,750.00</span>
+        <span class="pill pill-high">Score 91</span>
+      </div>
+      <div class="chat-area">
+        <div class="bubble bubble-user">Why was this transaction flagged?</div>
+        <div class="bubble bubble-ai">It was flagged because the amount is far above your 30-day average and the SIM changed recently.</div>
+        <div class="bubble bubble-ai"><span class="typing"><span></span><span></span><span></span></span></div>
+      </div>
+      <p style="margin-top:.75rem">
+        <button class="chip" type="button">Why was this transaction flagged?</button>
+        <button class="chip" type="button">Explain the risk score calculation</button>
+        <button class="chip" type="button">What should I do if I don't recognize this payment?</button>
+      </p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      Student/mock hackathon project inspired by RBI Digital Payment Security Guidelines. Not affiliated with or endorsed by Bank of Baroda. Synthetic data only.
+    </div>
+  </footer>
+
+  <!-- MODAL -->
+  <div class="modal-backdrop" id="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+    <div class="modal">
+      <h2 id="mTitle">Cryptographic Audit Record</h2>
+      <p class="muted">IP 103.21.xx.xx &nbsp;|&nbsp; TEE hash <span class="mono">a91f...c3d2</span></p>
+      <button class="btn btn-primary" type="button" id="closeModal">Close</button>
+    </div>
+  </div>
+
+  <script>
+    // Theme toggle
+    document.getElementById('themeBtn').addEventListener('click', function () {
+      var html = document.documentElement;
+      html.setAttribute('data-theme', html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+    });
+    // Show/hide password
+    document.getElementById('showPw').addEventListener('click', function () {
+      var pw = document.getElementById('pw');
+      var show = pw.type === 'password';
+      pw.type = show ? 'text' : 'password';
+      this.textContent = show ? 'Hide' : 'Show';
+    });
+    // Modal
+    var modal = document.getElementById('modal');
+    document.getElementById('openModal').addEventListener('click', function () { modal.classList.add('open'); });
+    document.getElementById('closeModal').addEventListener('click', function () { modal.classList.remove('open'); });
+    modal.addEventListener('click', function (e) { if (e.target === modal) modal.classList.remove('open'); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') modal.classList.remove('open'); });
+  </script>
 </body>
 </html>
